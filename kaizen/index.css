@@ -1,0 +1,526 @@
+/**
+ * Uživo – iz Figma node 6171:10777 (Betting).
+ * Svi stilovi preko tokens.css; spacing 4px/8px.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-primary);
+  font-size: 13px;
+  line-height: 16px;
+  background-color: var(--surface-content-primary);
+  color: var(--text-content-primary);
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 414px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Navigation (Figma: navigation/surface/primary, 40px rows) ---- */
+.nav {
+  background-color: var(--surface-nav-primary);
+  flex-shrink: 0;
+  z-index: 4;
+}
+
+.nav-top-row {
+  height: 40px;
+  padding: 0 var(--rhythm-md);
+}
+
+.nav-notch {
+  width: 108px;
+  height: 16px;
+  background-color: var(--surface-content-primary);
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+}
+
+.nav-main-row {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--rhythm-md);
+  gap: var(--rhythm-s);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--rhythm-md);
+}
+
+.btn-icon {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-content-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--rhythm-lg);
+  height: var(--rhythm-lg);
+}
+
+.icon-hamburger {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  box-shadow: 0 6px 0 currentColor, 0 12px 0 currentColor;
+}
+
+.nav-link-tertiary,
+.btn-tertiary {
+  font-size: 12px;
+  font-weight: var(--font-weight-secondary);
+  color: var(--text-link-secondary);
+  text-decoration: none;
+  padding: 0 var(--rhythm-md);
+  height: var(--rhythm-lg);
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--border-radius-xl);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--rhythm-s);
+}
+
+.btn {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: var(--font-weight-secondary);
+  padding: 0 var(--rhythm-md);
+  height: var(--rhythm-lg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--border-radius-xl);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--buttons-surface-action-primary-default);
+  color: var(--buttons-text-action-primary-default);
+}
+
+.btn-tertiary {
+  background: transparent;
+  color: var(--text-content-primary);
+}
+
+.nav-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--rhythm-lg);
+  height: var(--rhythm-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-letter {
+  font-weight: var(--font-weight-tertiary);
+  color: var(--mozzart-alias-secondary-neutral-lighter);
+  font-size: 16px;
+}
+
+/* Tabs: Uživo aktivno – žuta donja linija (tabs-nav/surface/primary #fdb913) */
+.nav-tabs {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: var(--rhythm-xs);
+  padding: var(--rhythm-xs) var(--rhythm-md);
+  overflow-x: auto;
+  box-shadow: inset 0 0 2px 0 var(--mozzart-alias-common-darkest);
+}
+
+.tab {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: var(--font-weight-primary);
+  color: var(--text-content-secondary);
+  text-decoration: none;
+  padding: var(--rhythm-xs) 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: var(--border-width-s) solid transparent;
+  margin-bottom: calc(-1 * var(--border-width-xs));
+}
+
+.tab--active {
+  color: var(--text-content-primary);
+  border-bottom-color: var(--mozzart-alias-secondary-neutral-lighter);
+}
+
+/* ---- Sport filters (72px h, 56px min-width, 99+ badge) ---- */
+.sport-filters {
+  display: flex;
+  gap: var(--rhythm-xs);
+  padding: 0 var(--rhythm-s);
+  min-height: 72px;
+  align-items: flex-start;
+  background-color: var(--surface-content-secondary);
+  border-bottom: var(--border-width-xs) solid var(--border-primary);
+  overflow-x: auto;
+  z-index: 3;
+}
+
+.sport-item {
+  flex-shrink: 0;
+  width: 56px;
+  min-width: 56px;
+  padding-top: var(--rhythm-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  color: var(--text-content-secondary);
+  font-size: 13px;
+  font-weight: var(--font-weight-primary);
+  position: relative;
+}
+
+.sport-item--active {
+  color: var(--text-content-primary);
+}
+
+.sport-icon {
+  font-size: 24px;
+  display: block;
+}
+
+.sport-name {
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  line-height: 16px;
+}
+
+.sport-line {
+  display: none;
+  height: 2px;
+  width: 100%;
+  background: var(--mozzart-alias-secondary-neutral-lighter);
+  border-radius: var(--border-radius-xs);
+}
+
+.sport-item--active .sport-line {
+  display: block;
+}
+
+.sport-badge {
+  position: absolute;
+  left: 31px;
+  top: var(--rhythm-s);
+  font-size: 9px;
+  font-weight: var(--font-weight-primary);
+  line-height: 12px;
+  text-transform: uppercase;
+  color: var(--text-content-primary);
+  background-color: var(--buttons-surface-action-primary-default);
+  padding: 0 var(--rhythm-xs);
+  min-width: 17px;
+  text-align: center;
+  border-radius: var(--border-radius-xs);
+}
+
+/* ---- Content ---- */
+.content {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: visible;
+  z-index: 1;
+}
+
+.content-inner {
+  width: 100%;
+  max-width: 414px;
+  margin: 0 auto;
+}
+
+/* SportHeader: min-h 48px, border-b */
+.sport-header {
+  min-height: 48px;
+  border-bottom: var(--border-width-xs) solid var(--border-primary);
+  display: flex;
+  align-items: center;
+}
+
+.sport-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--rhythm-s);
+}
+
+.sport-header-left {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sport-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-secondary);
+  line-height: 20px;
+  color: var(--text-content-primary);
+}
+
+.dropdown-activator {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: var(--font-weight-primary);
+  line-height: 16px;
+  color: var(--text-content-primary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dropdown-activator--right {
+  flex-shrink: 0;
+  padding: 0 var(--rhythm-s);
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+  opacity: 0.9;
+}
+
+/* League row: bg surface-content-secondary, 40px, 1 X 2 */
+.league-row {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 var(--rhythm-s);
+  background-color: var(--surface-content-secondary);
+  border-bottom: var(--border-width-xs) solid var(--border-primary);
+}
+
+.league-name-cell {
+  flex: 1 0 0;
+  display: flex;
+  align-items: center;
+  gap: var(--rhythm-s);
+  min-width: 0;
+  padding-right: var(--rhythm-md);
+}
+
+.league-flag {
+  flex-shrink: 0;
+  font-size: 14px;
+  width: 16px;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--border-radius-xs);
+}
+
+.league-name {
+  font-size: 13px;
+  font-weight: var(--font-weight-primary);
+  color: var(--text-content-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.league-ms {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-content-secondary);
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.league-odds-headers {
+  flex-shrink: 0;
+  width: 148px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 13px;
+  font-weight: var(--font-weight-primary);
+  color: var(--text-content-primary);
+}
+
+/* Match row: 68px, border-b, left match-cell + odds-cell */
+.match-row {
+  display: flex;
+  min-height: 68px;
+  padding: var(--rhythm-xs) 0 var(--rhythm-xs) var(--rhythm-s);
+  border-bottom: var(--border-width-xs) solid var(--border-primary);
+}
+
+.match-cell {
+  flex: 1 0 0;
+  min-width: 0;
+  padding-right: var(--rhythm-s);
+  border-right: var(--border-width-xs) solid var(--border-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.match-details {
+  display: flex;
+  align-items: center;
+  gap: var(--rhythm-s);
+  margin-bottom: 2px;
+}
+
+.match-time {
+  font-size: 13px;
+  font-weight: var(--font-weight-primary);
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.match-time--live {
+  color: var(--text-link-secondary);
+}
+
+.match-time--static {
+  color: var(--text-content-primary);
+}
+
+.match-pbp {
+  font-size: 12px;
+  color: var(--text-content-tertiary);
+}
+
+.match-participants {
+  display: flex;
+  align-items: center;
+  gap: var(--rhythm-s);
+}
+
+.match-participant-col {
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.match-participant-row {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.match-participant-name {
+  font-size: 15px;
+  font-weight: var(--font-weight-primary);
+  line-height: 20px;
+  color: var(--text-content-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.match-meta {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--rhythm-xs);
+}
+
+.btn-fav {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--mozzart-alias-secondary-light);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.match-results-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.match-result {
+  font-size: 13px;
+  font-weight: var(--font-weight-primary);
+  line-height: 16px;
+  color: var(--text-content-primary);
+  text-align: right;
+  min-width: 24px;
+}
+
+/* Odds: surface-content-primary bg, 4px radius, 148px total */
+.odds-cell {
+  flex-shrink: 0;
+  width: 148px;
+  display: flex;
+  gap: var(--rhythm-xs);
+  padding: 0 var(--rhythm-xs);
+}
+
+.odd-btn {
+  flex: 1 0 0;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: var(--font-weight-secondary);
+  line-height: 20px;
+  color: var(--text-content-primary);
+  background-color: var(--surface-content-primary);
+  border: none;
+  border-radius: var(--border-radius-s);
+  cursor: pointer;
+  padding: var(--rhythm-xs);
+}

@@ -1,0 +1,187 @@
+/**
+ * Kaizen Design System – CSS variables from _instructions tokens.
+ * Use these variables only; no hardcoded colors.
+ * Spacing: multiples of 4px/8px (rhythm).
+ */
+
+:root {
+  /* ---- Sizer: rhythm (spacing) ---- */
+  --rhythm-none: 0;
+  --rhythm-xs: 4px;
+  --rhythm-s: 8px;
+  --rhythm-sm: 12px;
+  --rhythm-md: 16px;
+  --rhythm-lg: 24px;
+  --rhythm-xl: 32px;
+  --rhythm-2xl: 40px;
+  --rhythm-3xl: 48px;
+  --rhythm-4xl: 56px;
+  --rhythm-5xl: 64px;
+  --rhythm-6xl: 72px;
+  --rhythm-7xl: 80px;
+
+  /* ---- Sizer: border radius ---- */
+  --border-radius-none: 0;
+  --border-radius-xs: 2px;
+  --border-radius-s: 4px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+  --border-radius-2xl: 32px;
+
+  /* ---- Sizer: border width ---- */
+  --border-width-none: 0;
+  --border-width-xs: 1px;
+  --border-width-s: 2px;
+  --border-width-sm: 4px;
+
+  /* ---- Fonts ---- */
+  --font-family-base: "Proxima-Nova", "Proxima Nova", system-ui, -apple-system, sans-serif;
+  --font-weight-primary: 400;
+  --font-weight-secondary: 600;
+  --font-weight-tertiary: 700;
+
+  /* ---- Crossbrand: foundations ---- */
+  --crossbrand-color-grey-100: #f9f8f8;
+  --crossbrand-color-grey-200: #efefef;
+  --crossbrand-color-grey-300: #e1e1e1;
+  --crossbrand-color-grey-400: #cfc4c4;
+  --crossbrand-color-grey-500: #8f8f8f;
+  --crossbrand-color-grey-600: #706e6e;
+  --crossbrand-color-grey-700: #41444d;
+  --crossbrand-color-grey-800: #313540;
+  --crossbrand-color-grey-900: #1e2733;
+  --crossbrand-color-grey-1000: #19212b;
+  --crossbrand-color-red-100: #ffcdcd;
+  --crossbrand-color-red-200: #ff3c3c;
+  --crossbrand-color-red-300: #e20000;
+  --crossbrand-color-red-400: #b00000;
+  --crossbrand-color-red-500: #920000;
+  --crossbrand-color-green-100: #b7ffbe;
+  --crossbrand-color-green-200: #78e483;
+  --crossbrand-color-green-300: #057d11;
+  --crossbrand-color-green-400: #066710;
+  --crossbrand-color-green-500: #005f00;
+
+  /* ---- Mozzart: foundations ---- */
+  --mozzart-color-violet-100: #fffaff;
+  --mozzart-color-violet-200: #825acb;
+  --mozzart-color-violet-300: #502899;
+  --mozzart-color-violet-400: #280071;
+  --mozzart-color-violet-500: #000049;
+  --mozzart-color-yellow-100: #ffff81;
+  --mozzart-color-yellow-200: #ffe13b;
+  --mozzart-color-yellow-300: #ffcd27;
+  --mozzart-color-yellow-400: #fdb913;
+  --mozzart-color-yellow-500: #a75d00;
+
+  /* ---- Mozzart: aliases (semantic) ---- */
+  --mozzart-alias-primary-lightest: var(--mozzart-color-violet-100);
+  --mozzart-alias-primary-lighter: var(--mozzart-color-violet-200);
+  --mozzart-alias-primary-light: var(--mozzart-color-violet-300);
+  --mozzart-alias-primary-neutral-lighter: var(--mozzart-color-violet-400);
+  --mozzart-alias-primary-neutral-light: var(--mozzart-color-violet-500);
+  --mozzart-alias-secondary-lightest: var(--mozzart-color-yellow-100);
+  --mozzart-alias-secondary-lighter: var(--mozzart-color-yellow-200);
+  --mozzart-alias-secondary-light: var(--mozzart-color-yellow-400);
+  --mozzart-alias-secondary-neutral-lighter: var(--mozzart-color-yellow-400);
+  --mozzart-alias-secondary-neutral-light: var(--mozzart-color-yellow-500);
+  --mozzart-alias-common-darkest: var(--crossbrand-color-grey-1000);
+  --mozzart-alias-common-darker: var(--crossbrand-color-grey-900);
+  --mozzart-alias-common-dark: var(--crossbrand-color-grey-800);
+  --mozzart-alias-common-neutral-darker: var(--crossbrand-color-grey-700);
+  --mozzart-alias-common-neutral-dark: var(--crossbrand-color-grey-600);
+  --mozzart-alias-common-neutral-light: var(--crossbrand-color-grey-500);
+  --mozzart-alias-common-neutral-lighter: var(--crossbrand-color-grey-400);
+  --mozzart-alias-common-light: var(--crossbrand-color-grey-300);
+  --mozzart-alias-common-lighter: var(--crossbrand-color-grey-200);
+  --mozzart-alias-common-lightest: var(--crossbrand-color-grey-100);
+  --mozzart-alias-tertiary-light: var(--crossbrand-color-green-300);
+  --mozzart-alias-tertiary-lighter: var(--crossbrand-color-green-200);
+  --mozzart-alias-tertiary-neutral-lighter: var(--crossbrand-color-green-400);
+  --mozzart-alias-tertiary-neutral-dark: var(--crossbrand-color-green-500);
+  --mozzart-alias-success-light: var(--crossbrand-color-green-300);
+  --mozzart-alias-success-lightest: var(--crossbrand-color-green-100);
+  --mozzart-alias-attention-light: var(--crossbrand-color-red-300);
+  --mozzart-alias-attention-lightest: var(--crossbrand-color-red-100);
+
+  /* ---- Germania: foundations ---- */
+  --germania-color-yellow-100: #ffffa0;
+  --germania-color-yellow-200: #ffff6e;
+  --germania-color-yellow-300: #ffcd27;
+  --germania-color-yellow-400: #fee000;
+  --germania-color-yellow-500: #b9a400;
+  --germania-color-red-100: #ff7878;
+  --germania-color-red-200: #ff4646;
+  --germania-color-red-300: #ff3232;
+  --germania-color-red-400: #ff0000;
+  --germania-color-red-500: #c30000;
+
+  /* ---- Theme: Dark Mozzart (semantic / component) ---- */
+  --surface-nav-primary: var(--mozzart-alias-primary-neutral-lighter);
+  --surface-content-primary: var(--mozzart-alias-common-darker);
+  --surface-content-secondary: var(--mozzart-alias-common-dark);
+  --surface-content-tertiary: var(--mozzart-alias-common-neutral-darker);
+  --surface-content-highlight: var(--mozzart-alias-secondary-neutral-lighter);
+  --surface-attention-primary: var(--mozzart-alias-attention-lightest);
+  --surface-content-negative-primary: var(--mozzart-alias-common-lightest);
+  --surface-content-negative-secondary: var(--mozzart-alias-common-lighter);
+  --surface-content-negative-tertiary: var(--mozzart-alias-common-light);
+  --surface-success-primary: var(--mozzart-alias-success-lightest);
+
+  --border-primary: var(--mozzart-alias-common-dark);
+  --border-secondary: var(--mozzart-alias-common-neutral-darker);
+  --border-tertiary: var(--mozzart-alias-common-neutral-dark);
+  --border-negative-primary: var(--mozzart-alias-common-lighter);
+  --border-negative-secondary: var(--mozzart-alias-common-light);
+  --border-negative-tertiary: var(--mozzart-alias-common-neutral-lighter);
+  --border-highlight-primary: var(--mozzart-alias-common-light);
+  --border-highlight-secondary: var(--mozzart-alias-tertiary-light);
+  --border-highlight-tertiary: var(--mozzart-alias-secondary-neutral-lighter);
+
+  --text-content-primary: var(--mozzart-alias-common-lightest);
+  --text-content-secondary: var(--mozzart-alias-common-neutral-lighter);
+  --text-content-tertiary: var(--mozzart-alias-common-neutral-dark);
+  --text-content-negative-primary: var(--mozzart-alias-common-darker);
+  --text-content-negative-secondary: var(--mozzart-alias-common-neutral-darker);
+  --text-content-negative-tertiary: var(--mozzart-alias-common-neutral-light);
+  --text-highlight-primary: var(--mozzart-alias-secondary-neutral-lighter);
+  --text-highlight-secondary: var(--mozzart-alias-tertiary-light);
+  --text-attention-primary: var(--mozzart-alias-success-light);
+  --text-attention-secondary: var(--mozzart-alias-attention-light);
+  --text-link-primary: var(--germania-color-green-500);
+  --text-link-secondary: var(--crossbrand-color-green-200);
+
+  --icons-content-primary: var(--mozzart-alias-common-lightest);
+  --icons-content-secondary: var(--mozzart-alias-common-neutral-light);
+  --icons-content-tertiary: var(--mozzart-alias-tertiary-light);
+  --icons-content-highlight: var(--mozzart-alias-primary-lighter);
+  --icons-content-quarternary: var(--mozzart-alias-secondary-neutral-lighter);
+  --icons-content-negative-primary: var(--mozzart-alias-common-darker);
+  --icons-content-negative-secondary: var(--mozzart-alias-common-neutral-darker);
+  --icons-content-negative-tertiary: var(--mozzart-alias-common-neutral-light);
+  --icons-success-primary: var(--mozzart-alias-success-lightest);
+  --icons-success-secondary: var(--mozzart-alias-success-light);
+  --icons-error: var(--mozzart-alias-attention-light);
+
+  /* Buttons (Dark Mozzart) */
+  --buttons-surface-action-primary-default: var(--mozzart-alias-tertiary-light);
+  --buttons-surface-action-primary-hover: var(--mozzart-alias-tertiary-neutral-lighter);
+  --buttons-surface-action-primary-disabled: var(--mozzart-alias-common-neutral-darker);
+  --buttons-surface-action-secondary-default: var(--mozzart-alias-common-neutral-darker);
+  --buttons-surface-action-secondary-hover: var(--mozzart-alias-common-neutral-dark);
+  --buttons-surface-action-secondary-disabled: var(--mozzart-alias-common-neutral-darker);
+  --buttons-text-action-primary-default: var(--mozzart-alias-common-lightest);
+  --buttons-text-action-primary-hover: var(--mozzart-alias-common-neutral-lighter);
+  --buttons-text-action-primary-disabled: var(--mozzart-alias-common-neutral-light);
+  --buttons-text-action-secondary-default: var(--mozzart-alias-common-lightest);
+  --buttons-text-action-secondary-hover: var(--mozzart-alias-common-neutral-lighter);
+  --buttons-text-action-secondary-disabled: var(--mozzart-alias-common-neutral-light);
+  --buttons-icons-action-primary-default: var(--mozzart-alias-common-lightest);
+  --buttons-icons-action-primary-hover: var(--mozzart-alias-common-neutral-lighter);
+  --buttons-icons-action-primary-disabled: var(--mozzart-alias-common-neutral-light);
+  --buttons-icons-action-secondary-default: var(--mozzart-alias-common-lightest);
+  --buttons-icons-action-secondary-hover: var(--mozzart-alias-common-neutral-lighter);
+  --buttons-icons-action-secondary-disabled: var(--mozzart-alias-common-neutral-light);
+}
