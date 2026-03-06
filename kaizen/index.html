@@ -150,7 +150,8 @@
         <div class="match-row" data-name="matchrow">
           <div class="match-cell">
             <div class="match-details">
-              <span class="match-time match-time--static">90+2'</span>
+              <time class="match-time match-time--live" id="timer-match-2" datetime="PT92M0S">92:00</time>
+              <span class="match-pbp" aria-hidden="true">‖</span>
             </div>
             <div class="match-participants">
               <div class="match-participant-col">
@@ -182,22 +183,26 @@
 
   <script>
     (function () {
-      var el = document.getElementById('timer-match-1');
-      if (!el) return;
-      var totalSeconds = 40 * 60 + 33;
-      function pad(n) { return (n < 10 ? '0' : '') + n; }
-      function tick() {
-        if (totalSeconds <= 0) {
-          el.textContent = '00:00';
-          return;
+      function runTimer(id, startMinutes, startSeconds) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var totalSeconds = startMinutes * 60 + (startSeconds || 0);
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
+        function tick() {
+          if (totalSeconds <= 0) {
+            el.textContent = '00:00';
+            return;
+          }
+          var m = Math.floor(totalSeconds / 60);
+          var s = totalSeconds % 60;
+          el.textContent = pad(m) + ':' + pad(s);
+          totalSeconds -= 1;
         }
-        var m = Math.floor(totalSeconds / 60);
-        var s = totalSeconds % 60;
-        el.textContent = pad(m) + ':' + pad(s);
-        totalSeconds -= 1;
+        tick();
+        setInterval(tick, 1000);
       }
-      tick();
-      setInterval(tick, 1000);
+      runTimer('timer-match-1', 40, 33);
+      runTimer('timer-match-2', 92, 0);
     })();
   </script>
 </body>

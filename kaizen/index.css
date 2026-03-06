@@ -421,7 +421,7 @@ body {
 }
 
 .match-time--live {
-  color: var(--text-link-secondary);
+  color: var(--crossbrand-color-green-300);
 }
 
 .match-time--static {
