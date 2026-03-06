@@ -418,14 +418,11 @@ body {
   font-weight: var(--font-weight-primary);
   line-height: 16px;
   font-variant-numeric: tabular-nums;
+  color: var(--crossbrand-color-green-200);
 }
 
 .match-time--live {
-  color: var(--crossbrand-color-green-300);
-}
-
-.match-time--static {
-  color: var(--text-content-primary);
+  color: var(--crossbrand-color-green-200);
 }
 
 .match-pbp {
