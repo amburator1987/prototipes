@@ -1,0 +1,20 @@
+/**
+ * Prototip 2 – naslanja se na tokens.css.
+ * Samo varijable iz tokensa; spacing višekratnik 4px/8px.
+ */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--crossbrand-color-grey-800);
+}
+
+.test {
+  width: var(--rhythm-5xl);
+  height: var(--rhythm-5xl);
+  background-color: var(--crossbrand-color-green-200);
+  border-radius: var(--border-radius-md);
+}
