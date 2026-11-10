@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Prototipovi</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --text: #1a1d23;
+      --muted: #5f6672;
+      --border: #e2e5ea;
+      --accent: #057d11;
+      --hover: #f0f3f6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1216;
+        --surface: #1a1f26;
+        --text: #f2f4f7;
+        --muted: #9aa3ae;
+        --border: #2c333d;
+        --accent: #78e483;
+        --hover: #222932;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 16px;
+    }
+    h1 {
+      margin: 0 0 4px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    p {
+      margin: 0 0 24px;
+      color: var(--muted);
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    li + li { border-top: 1px solid var(--border); }
+    a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    a:hover, a:focus-visible { background: var(--hover); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .name { font-weight: 600; }
+    .path { color: var(--muted); font-size: 14px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .path::after { content: " →"; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Prototipovi</h1>
+    <p>Lista HTML prototipova u ovom repou.</p>
+    <ul>
+      <li><a href="tocak-srece/"><span class="name">Točak sreće – prototip</span><span class="path">tocak-srece/</span></a></li>
+    </ul>
+  </main>
+</body>
+</html>
