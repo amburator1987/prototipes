@@ -1,17 +1,18 @@
 (function () {
   'use strict';
 
-  /* ---------- Podaci (redosled i vrednosti iz Figme, frame 6373:16934) ---------- */
+  /* ---------- Podaci (redosled i vrednosti iz Figme, frame 6373:16934 – 10 kartica) ---------- */
   var AWARDS = [
-    { icon: 'ml6',     amount: '300.00',      currency: 'RSD', product: 'Lucky Six',        badge: 'VOUCHER' },
-    { icon: 'sports',  amount: '300.00',      currency: 'RSD', product: 'Spotsko Klađenje', badge: 'VOUCHER' },
-    { icon: 'slash',   amount: 'Bez Nagrade', currency: '',    product: '',                 badge: '', noPrize: true },
-    { icon: 'lotto',   amount: '300.00',      currency: 'RSD', product: 'Grčki kino',       badge: 'VOUCHER' },
-    { icon: 'casino',  amount: '300.00',      currency: '',    product: 'Casino',           badge: 'FREE SPINS' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Lucky Six',        badge: 'WAGER FREE BET' },
-    { icon: 'Voucher', amount: '4565',        currency: '',    product: 'Lucky Six',        badge: 'WAGER VOUCHER' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi',    badge: 'Bruto FreeBet' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi',    badge: 'Neto freebet' }
+    { icon: 'ml6',     amount: '300.00',      currency: 'RSD', product: 'Lucky Six',     badge: 'VOUCHER' },
+    { icon: 'slash',   amount: 'Bez Nagrade', currency: '',    product: '',              badge: '', noPrize: true },
+    { icon: 'lotto',   amount: '300.00',      currency: 'RSD', product: 'Grčki kino',    badge: 'VOUCHER' },
+    { icon: 'casino',  amount: '300.00',      currency: '',    product: 'Casino',        badge: 'FREE SPINS' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Lucky Six',     badge: 'WAGER FREE BET' },
+    { icon: 'Voucher', amount: '4565',        currency: '',    product: 'Lucky Six',     badge: 'WAGER VOUCHER' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Bruto FreeBet' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet' }
   ];
 
   var LABEL_SPIN = 'Zavrti točak';
@@ -165,7 +166,7 @@
     spinBtn.disabled = false;
     spinBtn.textContent = LABEL_SPIN;
     spinBtn.classList.remove('btn--secondary');
-    spinBtn.classList.add('btn--primary');
+    spinBtn.classList.add('btn--primary', 'btn--lg');
     cardsSelect.disabled = false;
 
     wheelDialog.hidden = false;
@@ -250,8 +251,10 @@
     spinBtn.disabled = false;
     cardsSelect.disabled = false;
     spinBtn.textContent = noPrize ? LABEL_NO_PRIZE : LABEL_SPINNED;
+    // Figma: primarno dugme 56px (btn--lg); sekundarno "U redu" u no_award je 48px
     spinBtn.classList.toggle('btn--secondary', noPrize);
     spinBtn.classList.toggle('btn--primary', !noPrize);
+    spinBtn.classList.toggle('btn--lg', !noPrize);
   }
 
   function showResult() {
