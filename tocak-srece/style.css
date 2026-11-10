@@ -1,0 +1,520 @@
+/* =========================================================
+   Točak sreće – mobile prototip
+   Vrednosti iz Figme (oQZJ0KnQIWgkG8yaHoqWtp)
+   ========================================================= */
+
+:root {
+  /* Boje */
+  --surface-page: #1a1f26;                       /* pozadina ispod overlay-a (aproksimacija) */
+  --surface-dialog-holders: rgba(0, 0, 0, 0.6);
+  --dialogs-surface-primary: #1e2733;
+  --surface-content-primary: #1e2733;
+  --headers-border-primary-positive: #313540;
+  --headers-text-primary-positive: #f9f8f8;
+  --text-content-primary: #f9f8f8;
+  --text-blocks-text-primary: #f9f8f8;
+  --text-blocks-text-secondary: #efefef;
+  --text-link: #fdb913;
+  --badges-surface-tertiary-attention: #f9f8f8;
+  --badges-text-primary: #19212b;
+  --icons-success-primary: #b7ffbe;
+  --buttons-surface-primary-default: #057d11;
+  --buttons-text-primary-default: #f9f8f8;
+  --border-primary: #313540;                     /* border/border-primary – okvir obične kartice */
+  --award-border-winner: #057d11;
+  --surface-attention-primary: #ffcdcd;          /* okvir kartice type=no-prize */
+  --buttons-surface-secondary-default: #41444d;
+  --buttons-text-secondary-default: #78e483;
+  --award-shadow: rgba(0, 0, 0, 0.45);
+
+  /* Font */
+  --font-family: "Proxima Nova", "Proxima-Nova", "ProximaNova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-weight-primary: 400;
+  --font-weight-secondary: 600;
+  --font-weight-tertiary: 700;
+
+  /* Rhythm (razmaci) */
+  --rhythm-none: 0px;
+  --rhythm-s: 8px;
+  --rhythm-md: 16px;
+  --rhythm-lg: 24px;
+  --rhythm-4xl: 56px;
+
+  /* Radijusi */
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-pill: 100px;
+
+  /* Komponente */
+  --phone-w: 436px;
+  --phone-h: 800px;
+  --dialog-max-h: 768px;
+  --award-size: 156px;
+  --award-border-w: 0.991px;
+  --award-shadow-blur: 3.889px;
+  --badge-top: -7.99px;                          /* badge prelazi gornju ivicu kartice */
+  --badge-h: 16px;
+  --glow-size: 90px;
+  --pointer-w: 156px;
+  --pointer-h: 18px;
+  --pointer-bottom: -0.99px;
+  --award-gap: 8px;
+  --roller-pad: 8px;
+  --icon-size: 40px;
+  --btn-h: 48px;
+  --btn-h-lg: 56px;
+
+  /* Animacija */
+  --spin-duration: 3000ms;
+  --spin-ease: cubic-bezier(0.15, 0.85, 0.25, 1);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: #0b0d10;
+  color: var(--text-content-primary);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+p, h2 { margin: 0; }
+button { font: inherit; color: inherit; }
+img { display: block; }
+
+/* ---------- Stage / telefon okvir ---------- */
+.stage {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 16px;
+}
+
+.phone {
+  position: relative;
+  width: var(--phone-w);
+  height: var(--phone-h);
+  background: var(--surface-page);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 0 0 10px #22272e, 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 var(--rhythm-md) var(--rhythm-md);
+  background: var(--surface-dialog-holders);
+  border-radius: 0 0 var(--rhythm-md) var(--rhythm-md);
+}
+
+/* ---------- Dev kontrole (van dizajna) ---------- */
+.dev-panel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 1px dashed #4a515c;
+  border-radius: 8px;
+  background: #15181d;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+  color: #c9ced6;
+}
+
+.dev-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dev-field__label { white-space: nowrap; }
+
+.dev-select {
+  font: inherit;
+  color: #f2f4f7;
+  background: #23272e;
+  border: 1px solid #4a515c;
+  border-radius: 4px;
+  padding: 2px 4px;
+  cursor: pointer;
+}
+.dev-select:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.dev-reset {
+  border: 1px solid #3a414c;
+  background: #1e2733;
+  color: #f9f8f8;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.dev-reset:hover { background: #26303e; }
+
+/* Pravi telefon: ceo viewport */
+@media (max-width: 500px) {
+  body { background: var(--surface-page); }
+  .stage { padding: 0; justify-content: flex-start; }
+  .phone {
+    width: 100%;
+    max-width: var(--phone-w);
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .dev-panel {
+    position: fixed;
+    top: calc(8px + env(safe-area-inset-top, 0px));
+    right: 8px;
+    z-index: 10;
+    opacity: 0.8;
+  }
+}
+
+/* ---------- Dialog (.dialogBase) ---------- */
+.dialog {
+  width: 100%;
+  max-height: var(--dialog-max-h);
+  display: flex;
+  flex-direction: column;
+  gap: var(--rhythm-lg);
+  padding-bottom: var(--rhythm-md);
+  background: var(--dialogs-surface-primary);
+  border-radius: var(--rhythm-md);
+}
+.dialog[hidden] { display: none; }
+
+.dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--rhythm-md) var(--rhythm-md) var(--rhythm-md) var(--rhythm-s);
+  border-bottom: 1px solid var(--headers-border-primary-positive);
+}
+
+.dialog__title {
+  flex: 1 0 0;
+  padding-left: var(--rhythm-s);
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: var(--font-weight-secondary);
+  color: var(--headers-text-primary-positive);
+}
+
+.dialog__close {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.dialog__close img { width: 24px; height: 24px; }
+
+.dialog__slot {
+  padding: 0 var(--rhythm-md);
+}
+
+.dialog__footer {
+  padding: 0 var(--rhythm-md);
+}
+
+/* ---------- wheel_ ---------- */
+.wheel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rhythm-4xl);
+  overflow: hidden;
+}
+
+/* .wheel_text */
+.wheel-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: var(--font-weight-secondary);
+}
+.wheel-text__title { color: var(--text-blocks-text-primary); }
+.wheel-text__body { color: var(--text-content-primary); opacity: 0.8; }
+
+/* ---------- .wheel_roller ---------- */
+.roller {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rhythm-lg);
+}
+
+.roller__viewport {
+  /* Viewport = 372px (širina slota); vidljivi deo izmedju paddinga = 356px.
+     Vertikalni padding da badge (-7px) i strelica ne budu odsečeni; kompenzovano marginom. */
+  margin: -10px 0 -22px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline-start: var(--roller-pad);
+  scrollbar-width: none;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.roller__viewport::-webkit-scrollbar { display: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .roller__viewport { cursor: grab; }
+}
+.roller__viewport.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.roller__viewport.is-locked {
+  cursor: default;
+  overflow-x: hidden;
+  touch-action: none;
+  scroll-snap-type: none;
+}
+
+.roller__track {
+  display: flex;
+  align-items: center;
+  gap: var(--award-gap);
+  width: max-content;
+  padding: 10px var(--roller-pad) 22px;
+  will-change: transform;
+}
+
+/* ---------- .wheel_award ---------- */
+.award {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--award-size);
+  height: var(--award-size);
+  min-width: var(--award-size);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-content-primary);
+  border: var(--award-border-w) solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  filter: drop-shadow(0 0 var(--award-shadow-blur) var(--award-shadow));
+  scroll-snap-align: start;
+  user-select: none;
+}
+
+.award__content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--rhythm-s);
+}
+
+.award__text {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--text-content-primary);
+}
+
+.award__value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-weight: var(--font-weight-tertiary);
+}
+/* MainFont21/Bold21 – amount; MainFont11/Bold11 – cur (centriran na redu od 29.4px ⇒ ~6.5px niže) */
+.award__amount { flex-shrink: 0; font-size: 21px; line-height: 1.4; letter-spacing: 0; }
+.award__currency { flex-shrink: 0; font-size: 11px; line-height: 16px; letter-spacing: 0; white-space: pre; }
+
+/* MainFont11/Regular11 – product */
+.award__product {
+  min-height: 16px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0;
+  font-weight: var(--font-weight-primary);
+}
+
+/* Badge iznad kartice */
+.award__badge {
+  position: absolute;
+  top: var(--badge-top);
+  left: calc(50% - 0.5px);
+  transform: translateX(-50%);
+  height: var(--badge-h);
+  min-width: 16px;
+  padding: 0 var(--rhythm-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--badges-surface-tertiary-attention);
+  border-radius: var(--radius-xl);
+  color: var(--badges-text-primary);
+  font-size: 9px;
+  line-height: 12px;
+  font-weight: var(--font-weight-secondary);
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+/* Spinned (type=prize-won) – krug 90×90 centriran iza sadržaja + strelica */
+.award__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--glow-size);
+  height: var(--glow-size);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+/* svg 178×178 = 90 + 2×44 (blur), inset -48.89% */
+.award__glow img {
+  position: absolute;
+  top: -48.89%;
+  left: -48.89%;
+  width: calc(100% + 2 * 48.89%);
+  height: calc(100% + 2 * 48.89%);
+  max-width: none;
+}
+
+/* okvir 156×18 na dnu kartice; trougao 24×16 (x 66, y 2) */
+.award__pointer {
+  position: absolute;
+  left: 50%;
+  bottom: var(--pointer-bottom);
+  transform: translateX(-50%);
+  width: var(--pointer-w);
+  height: var(--pointer-h);
+  opacity: 0;
+  pointer-events: none;
+}
+/* svg 156×55 = 18 + 17.5 (-97.22%) + 19.5 (-108.33%) senke */
+.award__pointer img {
+  position: absolute;
+  top: -97.22%;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 97.22% + 108.33%);
+  max-width: none;
+}
+
+.award.is-winner { border-color: var(--award-border-winner); }
+
+/* type=no-prize (6399:9594): ružičast okvir, bez reda za proizvod */
+.award--no-prize.is-winner { border-color: var(--surface-attention-primary); }
+.award--no-prize.is-winner .award__product { display: none; }
+.award.is-winner .award__glow,
+.award.is-winner .award__pointer { opacity: 1; }
+
+.award.is-winner .award__glow,
+.award.is-winner .award__pointer,
+.award.is-winner { transition: opacity 240ms ease-out, border-color 240ms ease-out; }
+
+/* ---------- .wheelIcons ---------- */
+/* Sve ikonice su SVG 40×40 (viewBox 0 0 40 40) – fiksna veličina, bez rastezanja */
+.wicon {
+  display: block;
+  flex: 0 0 var(--icon-size);
+  width: var(--icon-size);
+  min-width: var(--icon-size);
+  height: var(--icon-size);
+  min-height: var(--icon-size);
+  object-fit: contain;
+  -webkit-user-drag: none;
+}
+
+/* ---------- Dugme ---------- */
+.btn {
+  width: 100%;
+  min-width: 200px;
+  height: var(--btn-h);
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--rhythm-s);
+  padding: 0 var(--rhythm-md);
+  border: 0;
+  border-radius: var(--radius-xl);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: var(--font-weight-secondary);
+  cursor: pointer;
+  transition: opacity 150ms ease, filter 150ms ease;
+}
+.btn--primary {
+  background: var(--buttons-surface-primary-default);
+  color: var(--buttons-text-primary-default);
+}
+.btn--primary:active:not(:disabled) { filter: brightness(1.1); }
+.btn--secondary {
+  background: var(--buttons-surface-secondary-default);
+  color: var(--buttons-text-secondary-default);
+}
+.btn--secondary:active:not(:disabled) { filter: brightness(1.15); }
+.btn:disabled { cursor: default; opacity: 0.6; }
+
+.btn--lg {
+  height: var(--btn-h-lg);
+  padding: 0 var(--rhythm-lg);
+  border-radius: var(--radius-2xl);
+  font-size: 17px;
+  line-height: 24px;
+}
+
+/* ---------- Rezultat dijalog ---------- */
+.result-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.result-text__title {
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: var(--font-weight-secondary);
+  color: var(--text-blocks-text-primary);
+}
+.result-text__body {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: var(--font-weight-primary);
+  color: var(--text-blocks-text-secondary);
+  opacity: 0.8;
+}
+.result-text__body a { color: var(--text-link); text-decoration: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .award.is-winner,
+  .award.is-winner .award__glow,
+  .award.is-winner .award__pointer { transition: none; }
+}

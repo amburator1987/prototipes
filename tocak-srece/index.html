@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Točak sreće – prototip</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="stage">
+    <!-- Telefon okvir 436×800 (Figma: mobile 6373:16934) -->
+    <div class="phone" id="phone">
+      <div class="overlay">
+
+        <!-- Dijalog: Točak sreće -->
+        <section class="dialog" id="wheelDialog" role="dialog" aria-modal="true" aria-labelledby="wheelDialogTitle">
+          <header class="dialog__header">
+            <h2 class="dialog__title" id="wheelDialogTitle">Notifikacija</h2>
+            <button class="dialog__close" type="button" data-close aria-label="Zatvori">
+              <img src="assets/close.svg" alt="" width="24" height="24">
+            </button>
+          </header>
+
+          <div class="dialog__slot">
+            <div class="wheel">
+              <!-- .wheel_text -->
+              <div class="wheel-text">
+                <p class="wheel-text__title">Točak sreće</p>
+                <p class="wheel-text__body">Zavrti točak sreće i osvoji jednu od tri sjajne nagrade! Čeka te vaučer za Lucky Six, vaučer za Sportsko klađenje ili besplatni spinovi za kazino. Sreća je na tvojoj strani - zavrti i saznaj!</p>
+              </div>
+
+              <!-- .wheel_roller -->
+              <div class="roller" id="roller">
+                <div class="roller__viewport" id="viewport">
+                  <div class="roller__track" id="track"></div>
+                </div>
+                <button class="btn btn--primary" id="spinBtn" type="button">Zavrti točak</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dijalog: rezultat (Figma 6373:16801) -->
+        <section class="dialog" id="resultDialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle" hidden>
+          <header class="dialog__header">
+            <h2 class="dialog__title">Notifikacija</h2>
+            <button class="dialog__close" type="button" data-close aria-label="Zatvori">
+              <img src="assets/close.svg" alt="" width="24" height="24">
+            </button>
+          </header>
+          <div class="dialog__slot">
+            <div class="result-text">
+              <p class="result-text__title" id="resultTitle">Čestitamo</p>
+              <p class="result-text__body" id="resultBody"></p>
+            </div>
+          </div>
+          <div class="dialog__footer">
+            <button class="btn btn--primary btn--lg" id="okBtn" type="button">U redu</button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Dev kontrole (nisu deo dizajna) -->
+    <div class="dev-panel">
+      <label class="dev-field">
+        <span class="dev-field__label">Broj kartica</span>
+        <select class="dev-select" id="cardsSelect">
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9" selected>9</option>
+        </select>
+      </label>
+      <button class="dev-reset" id="resetBtn" type="button">↺ Reset</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
