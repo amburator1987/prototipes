@@ -634,7 +634,7 @@ img { display: block; }
   bottom: 0;
   height: min(790px, calc(100% - 10px));
   padding: var(--rhythm-4xl, 56px) var(--rhythm-lg) 0;
-  background: var(--surface-content-primary);
+  background: var(--surface-content-interactive);   /* option10: surface/content-interactive #19212b */
   border-radius: 24px 24px 0 0;
   overflow: hidden;
 }
