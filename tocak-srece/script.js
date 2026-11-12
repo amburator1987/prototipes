@@ -19,9 +19,12 @@
   var LABEL_SPINNED = 'Preuzmi nagradu';
   var LABEL_NO_PRIZE = 'U redu';       // Figma no_award (6399:9444) – sekundarno dugme
   var DURATION = 3000;          // ms – tačno 3s
-  var EASE = 'cubic-bezier(0.15, 0.85, 0.25, 1)';
-  var MIN_LOOPS = 3;            // najmanje punih krugova pre zaustavljanja
-  var MIN_TRAVEL = 4000;        // px – minimalni put, da i mali N ima sličnu brzinu kao N=9
+  var MIN_TRAVEL = 4000;        // px – minimalni put kursora (3+ kartice)
+  var TWO_CARDS_HOPS = 11;      // 2 kartice: broj prelazaka isticanja levo-desno pre zaustavljanja
+  var W2_TURNS = 4;             // wheel2: najmanje punih okreta prstena
+  var W2_EASE = 'cubic-bezier(0.15, 0.85, 0.25, 1)';
+  var W2_LABEL_SPIN = 'spin';
+  var W2_LABEL_DONE = 'ok';
   var MIN_CARDS = 2;
   var MAX_CARDS = AWARDS.length;
   var MIN_CENTERED = 3;         // od 3 kartice dobitna se centrira; sa 2 ostaje levo
@@ -38,6 +41,11 @@
   var okBtn = document.getElementById('okBtn');
   var cardsSelect = document.getElementById('cardsSelect');
   var mobileSelect = document.getElementById('mobileSelect');
+  var designSelect = document.getElementById('designSelect');
+  var wheel2Dialog = document.getElementById('wheel2Dialog');
+  var ring = document.getElementById('ring');
+  var hubBtn = document.getElementById('hubBtn');
+  var hubLabel = document.getElementById('hubLabel');
   var phoneEl = document.getElementById('phone');
 
   /* ---------- Stanje ---------- */
@@ -189,6 +197,24 @@
     phoneEl.classList.toggle('is-desktop', !isMobile);
   }
 
+  /* ---------- Dizajn: wheel1 (roler) / wheel2 (kružni točak) (?wheel=2) ---------- */
+  var design = 1;
+
+  function readDesignFromUrl() {
+    return getParam('wheel') === 2 ? 2 : 1;
+  }
+
+  function setDesign(d) {
+    design = d;
+    designSelect.value = String(d);
+  }
+
+  function setControlsDisabled(disabled) {
+    cardsSelect.disabled = disabled;
+    mobileSelect.disabled = disabled;
+    designSelect.disabled = disabled;
+  }
+
   /* ---------- Tok ---------- */
   function reset() {
     clearTimeout(spinTimer);
@@ -203,6 +229,7 @@
     track.style.paddingLeft = '';
     track.style.paddingRight = '';
     renderTrack(order);
+    activeCard = null;
     viewport.classList.remove('is-locked', 'is-centered');
     viewport.scrollLeft = 0;
 
@@ -210,10 +237,12 @@
     spinBtn.textContent = LABEL_SPIN;
     spinBtn.classList.remove('btn--secondary');
     spinBtn.classList.add('btn--primary', 'btn--lg');
-    cardsSelect.disabled = false;
-    mobileSelect.disabled = false;
+    setControlsDisabled(false);
 
-    wheelDialog.hidden = false;
+    resetWheel2();
+
+    wheelDialog.hidden = design !== 1;
+    wheel2Dialog.hidden = design !== 2;
     resultDialog.hidden = true;
   }
 
@@ -221,75 +250,97 @@
     if (phase !== 'idle') return;
     phase = 'spinning';
     spinBtn.disabled = true;
-    cardsSelect.disabled = true;
-    mobileSelect.disabled = true;
+    setControlsDisabled(true);
 
     winIndex = pickWinner();
     var n = order.length;
-    var p = order.indexOf(winIndex);
+    var w = order.indexOf(winIndex);   // pozicija dobitne – kartice se nikad ne dupliraju niti premeštaju
 
     if (reducedMotion && reducedMotion.matches) {
-      finish(p);
+      finish(w);
       return;
     }
 
-    var startOffset = viewport.scrollLeft;
-    viewport.classList.add('is-locked');
-
+    /* Animacija koristi SAMO stvarne kartice. "Kursor" (u = indeks kartice, može biti decimalan)
+       ide levo-desno po kartikama i odbija se od krajeva, usporava i staje na dobitnoj.
+       3+ kartice: traka se pomera tako da je kursor u centru rolera (na krajevima ostaje prazan prostor).
+       2 kartice: traka stoji, samo isticanje skače između kartica. */
+    var centered = n >= MIN_CENTERED;
     var s = step();
-    var loopWidth = n * s;
-    // Broj punih krugova: bar MIN_LOOPS, i dovoljno da put bude >= MIN_TRAVEL (mali N bi inače bio spor)
-    var loops = Math.max(MIN_LOOPS, Math.ceil(MIN_TRAVEL / loopWidth));
-    // Kartica na koju se staje: posle `loops` punih krugova, na poziciji p
-    var targetCard = loops * n + p;
-    // Desno od dobitne mora biti dovoljno kartica da se popuni ceo vidljivi deo rolera
-    var visibleCards = Math.ceil(viewport.clientWidth / s) + 1;
-    var copies = Math.ceil((targetCard + visibleCards) / n);
+    var cw = cardWidth();
+    var vw = viewport.clientWidth;
+    var pad = trackPadLeft();
+    var L = n - 1;
+    var startScroll = viewport.scrollLeft;
 
-    // Dupliran niz (copies × order) – traka je uvek šira od vidljivog dela
-    var extended = [];
-    for (var k = 0; k < copies; k++) extended = extended.concat(order);
-
-    renderTrack(extended);
-    viewport.scrollLeft = 0;
+    viewport.classList.add('is-locked');
     track.style.transition = 'none';
-    track.style.transform = 'translateX(' + (-startOffset) + 'px)';
-
-    // startOffset < loopWidth (idle traka ima samo n kartica), pa je target uvek ispred.
-    // 3+ kartice: točak staje sa dobitnom u centru; 2 kartice: dobitna levo (kao do sada).
-    var target = targetCard * s;
-    if (n >= MIN_CENTERED) {
-      target = trackPadLeft() + targetCard * s + cardWidth() / 2 - viewport.clientWidth / 2;
+    if (centered) {
+      // skrol prebacujemo u transform da bi kursor mogao da centrira i krajnje kartice
+      viewport.scrollLeft = 0;
+      track.style.transform = 'translateX(' + (-startScroll) + 'px)';
     }
 
-    // force reflow pa pokreni tranziciju
-    void track.offsetWidth;
+    function offsetFor(u) { return pad + u * s + cw / 2 - vw / 2; }
+
+    var u0 = centered ? Math.min(L, (startScroll + vw / 2 - pad - cw / 2) / s) : 0;
+    var minTravel = centered ? Math.max(MIN_TRAVEL / s, 3 * n) : TWO_CARDS_HOPS;
+    var uEnd = landingPoint(u0 + minTravel, w, L);
+
     var token = spinToken;
-    requestAnimationFrame(function () {
+    var t0 = null;
+    function frame(now) {
       if (phase !== 'spinning' || token !== spinToken) return;
-      track.style.transition = 'transform ' + DURATION + 'ms ' + EASE;
-      track.style.transform = 'translateX(' + (-target) + 'px)';
-      // tajmer kreće tek kad animacija stvarno krene
-      spinTimer = setTimeout(function () {
-        if (token === spinToken) finish(p);
-      }, DURATION);
-    });
+      if (t0 === null) t0 = now;
+      var t = Math.min(1, (now - t0) / DURATION);
+      var eased = 1 - Math.pow(1 - t, 4);           // ease-out (brzo pa sve sporije)
+      var u = bounce(u0 + (uEnd - u0) * eased, L);
+      if (centered) track.style.transform = 'translateX(' + (-offsetFor(u)) + 'px)';
+      setActive(Math.round(u));
+      if (t < 1) requestAnimationFrame(frame);
+      else finish(w);
+    }
+    requestAnimationFrame(frame);
   }
 
-  function finish(p) {
+  // Put "razvijen" u pravu liniju → pozicija na kartama: prvo desno do kraja, pa odbijanje levo-desno
+  function bounce(x, L) {
+    if (x <= L) return x;
+    var t = (x - L) % (2 * L);
+    return t < L ? L - t : t - L;
+  }
+
+  // Najmanja tačka na razvijenom putu >= minX u kojoj kursor staje tačno na kartici w
+  function landingPoint(minX, w, L) {
+    if (w >= minX) return w;
+    for (var k = 0; ; k++) {
+      var back = L + 2 * L * k + (L - w);     // na putu ulevo
+      if (back >= minX) return back;
+      var fwd = L + 2 * L * k + L + w;        // na putu udesno
+      if (fwd >= minX) return fwd;
+    }
+  }
+
+  var activeCard = null;
+  function setActive(i) {
+    var el = track.children[Math.max(0, Math.min(track.children.length - 1, i))] || null;
+    if (el === activeCard) return;
+    if (activeCard) activeCard.classList.remove('is-active');
+    if (el) el.classList.add('is-active');
+    activeCard = el;
+  }
+
+  function finish(w) {
     var n = order.length;
     var centered = n >= MIN_CENTERED;
-    // Pozicija dobitne u novom redosledu: u sredini (ostale levo i desno) ili na početku (2 kartice).
-    // Kružni redosled se čuva, pa se slika ne pomera u odnosu na kraj animacije.
-    var w = centered ? Math.floor(n / 2) : 0;
-    var start = ((p - w) % n + n) % n;
-    order = order.slice(start).concat(order.slice(0, start));
+
+    if (activeCard) activeCard.classList.remove('is-active');
+    activeCard = null;
 
     track.style.transition = 'none';
     track.style.transform = '';
     track.style.paddingLeft = '';
     track.style.paddingRight = '';
-    renderTrack(order);
     viewport.classList.remove('is-locked');
     viewport.classList.toggle('is-centered', centered);
 
@@ -316,8 +367,7 @@
 
     phase = 'spinned';
     spinBtn.disabled = false;
-    cardsSelect.disabled = false;
-    mobileSelect.disabled = false;
+    setControlsDisabled(false);
     spinBtn.textContent = noPrize ? LABEL_NO_PRIZE : LABEL_SPINNED;
     // Figma: primarno dugme 56px (btn--lg); sekundarno "U redu" u no_award je 48px
     spinBtn.classList.toggle('btn--secondary', noPrize);
@@ -333,14 +383,93 @@
       'Osvojili ste ' + escapeHtml(a.badge) + ' (' + escapeHtml(a.product) + ') u vrednosti od ' + value +
       '. Uslove otključavanja bonusa možete pogledati na <a href="#" onclick="return false">ovom linku</a>.';
     wheelDialog.hidden = true;
+    wheel2Dialog.hidden = true;
     resultDialog.hidden = false;
   }
 
   function closeAll() {
     if (phase === 'spinning') return;
     wheelDialog.hidden = true;
+    wheel2Dialog.hidden = true;
     resultDialog.hidden = true;
   }
+
+  /* ---------- Wheel 2: kružni točak ----------
+     Svaka stvarna kartica ima svoje mesto na krugu (360°/N). Okreće se ceo prsten
+     i staje tako da je dobitna kartica gore, ispod strelice u centru. Bez kopija kartica. */
+  var ringAngle = 0;
+
+  function resetWheel2() {
+    ringAngle = 0;
+    ring.style.transition = 'none';
+    ring.style.transform = 'rotate(0deg)';
+    var n = cardsCount;
+    var html = '';
+    for (var i = 0; i < n; i++) {
+      html += '<div class="w2-slot" style="--a:' + (i * 360 / n) + 'deg">' + cardHtml(i) + '</div>';
+    }
+    ring.innerHTML = html;
+    hubBtn.disabled = false;
+    hubLabel.textContent = W2_LABEL_SPIN;
+    hubBtn.setAttribute('aria-label', 'Zavrti točak');
+  }
+
+  function spin2() {
+    if (phase !== 'idle') return;
+    phase = 'spinning';
+    hubBtn.disabled = true;
+    setControlsDisabled(true);
+
+    winIndex = pickWinner();
+    var n = cardsCount;
+    // Okret u smeru kazaljke: kartica na uglu a dolazi gore kad je ugao prstena ≡ -a (mod 360)
+    var a = winIndex * 360 / n;
+    var target = ringAngle + W2_TURNS * 360 + ((((-a - ringAngle) % 360) + 360) % 360);
+
+    if (reducedMotion && reducedMotion.matches) {
+      ringAngle = target;
+      ring.style.transition = 'none';
+      ring.style.transform = 'rotate(' + target + 'deg)';
+      finish2();
+      return;
+    }
+
+    var token = spinToken;
+    void ring.offsetWidth;
+    requestAnimationFrame(function () {
+      if (phase !== 'spinning' || token !== spinToken) return;
+      ringAngle = target;
+      ring.style.transition = 'transform ' + DURATION + 'ms ' + W2_EASE;
+      ring.style.transform = 'rotate(' + target + 'deg)';
+      spinTimer = setTimeout(function () {
+        if (token === spinToken) finish2();
+      }, DURATION);
+    });
+  }
+
+  function finish2() {
+    var card = ring.children[winIndex].firstElementChild;
+    var noPrize = !!AWARDS[winIndex].noPrize;
+    card.classList.add('is-winner');
+    if (noPrize) {
+      card.querySelector('.wicon').src = 'assets/slash-noprize.svg';
+      card.querySelector('.award__glow img').src = 'assets/glow-noprize.svg';
+    }
+    phase = 'spinned';
+    hubBtn.disabled = false;
+    hubLabel.textContent = W2_LABEL_DONE;
+    hubBtn.setAttribute('aria-label', noPrize ? 'U redu' : 'Preuzmi nagradu');
+    setControlsDisabled(false);
+  }
+
+  hubBtn.addEventListener('click', function () {
+    if (phase === 'idle') spin2();
+    else if (phase === 'spinned') {
+      // isto kao wheel1: bez nagrade samo zatvara, inače dijalog sa rezultatom
+      if (AWARDS[winIndex].noPrize) closeAll();
+      else showResult();
+    }
+  });
 
   /* ---------- Događaji ---------- */
   spinBtn.addEventListener('click', function () {
@@ -365,6 +494,13 @@
     var isMobile = mobileSelect.value === 'yes';
     setMobile(isMobile);
     writeParamToUrl('mobile', isMobile ? null : 'no');
+    reset();
+  });
+  designSelect.addEventListener('change', function () {
+    if (phase === 'spinning') return;
+    var d = designSelect.value === '2' ? 2 : 1;
+    setDesign(d);
+    writeParamToUrl('wheel', d === 2 ? 2 : null);
     reset();
   });
   Array.prototype.forEach.call(document.querySelectorAll('[data-close]'), function (b) {
@@ -440,6 +576,7 @@
   viewport.addEventListener('dragstart', function (e) { e.preventDefault(); });
 
   setMobile(readMobileFromUrl());
+  setDesign(readDesignFromUrl());
   setCards(readCardsFromUrl());
   reset();
 })();

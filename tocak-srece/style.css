@@ -54,6 +54,7 @@
   --phone-h: 800px;
   --dialog-max-h: 768px;
   --dialog-w-desktop: 768px;
+  --dialog-w-notice-desktop: 400px;
   --desktop-w: 1280px;                           /* umanjen lobby 1920×1080 (16:9) */
   --desktop-h: 720px;
   --award-size: 156px;
@@ -187,6 +188,8 @@ img { display: block; }
   width: var(--dialog-w-desktop);
   max-width: 100%;
 }
+/* Notifikacija (rezultat) na desktopu: .dialogBase 400px (6373:12421) */
+.phone.is-desktop .dialog--notice { width: var(--dialog-w-notice-desktop); }
 
 /* Pravi telefon: ceo viewport */
 @media (max-width: 500px) {
@@ -484,6 +487,10 @@ img { display: block; }
 
 .award.is-winner { border-color: var(--award-border-winner); }
 
+/* Tokom spina: kartica na kojoj je "kursor" (samo okvir, bez strelice) */
+.award.is-active { border-color: var(--award-border-winner); }
+.award--no-prize.is-active { border-color: var(--surface-attention-primary); }
+
 /* type=no-prize (6399:9594): ružičast okvir, bez reda za proizvod */
 .award--no-prize.is-winner { border-color: var(--surface-attention-primary); }
 .award--no-prize.is-winner .award__product { display: none; }
@@ -543,6 +550,132 @@ img { display: block; }
   font-size: 17px;
   line-height: 24px;
 }
+
+/* =========================================================
+   Wheel 2 – kružni točak (Figma 6427:11926, okvir 455×790)
+   ========================================================= */
+.dialog2 {
+  --w2-size: 634.42px;          /* simbol "wheel" */
+  --w2-radius: 227.6px;         /* centar točka → centar kartice */
+  --w2-card-scale: 0.89608;     /* .wheel_award 139.788 / 156 */
+  --w2-from-bottom: -219.42px;  /* točak: top 375 u okviru visine 790 */
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: min(790px, calc(100% - 10px));
+  padding: var(--rhythm-4xl, 56px) var(--rhythm-lg) 0;
+  background: var(--surface-content-primary);
+  border-radius: 24px 24px 0 0;
+  overflow: hidden;
+}
+.dialog2[hidden] { display: none; }
+
+.phone.is-desktop .dialog2 {
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  width: 455px;
+  max-width: calc(100% - 20px);
+  height: min(790px, calc(100% - 20px));
+  transform: translate(-50%, -50%);
+  border-radius: 24px;
+}
+
+/* .wheel_text varijanta: Header 17/24 semibold, tekst 15/20 regular, ikonica 16px */
+.w2-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--rhythm-md);
+  color: var(--border-highlight-primary);
+}
+.w2-text__title {
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: var(--font-weight-secondary);
+}
+.w2-text__body,
+.w2-text__info p {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: var(--font-weight-primary);
+}
+.w2-text__info { display: flex; align-items: center; gap: 10px; }
+.w2-text__info img { flex-shrink: 0; width: 16px; height: 16px; }
+.w2-text__info p { flex: 1 0 0; min-width: 1px; }
+
+.w2-wheel {
+  position: absolute;
+  left: calc(50% - 0.41px);
+  bottom: var(--w2-from-bottom);
+  width: var(--w2-size);
+  height: var(--w2-size);
+  transform: translateX(-50%);
+}
+
+/* Prsten sa karticama – jedini deo koji se okreće */
+.w2-ring {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.w2-slot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--award-size);
+  height: var(--award-size);
+  margin: calc(var(--award-size) / -2) 0 0 calc(var(--award-size) / -2);
+  transform: rotate(var(--a)) translateY(calc(-1 * var(--w2-radius))) scale(var(--w2-card-scale));
+}
+
+/* Centar (hub) – fiksan */
+.w2-hub {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.w2-layer { position: absolute; display: block; }
+.w2-fill { position: absolute; display: block; }
+.w2-fill img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+.w2-layer img.is-flipped { transform: rotate(180deg); }
+
+/* Dugme SPIN */
+.w2-hub__label {
+  position: absolute;
+  inset: 49.15% 0 46.33% 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23.298px;
+  line-height: normal;
+  font-weight: 800;
+  letter-spacing: 4.1936px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 0 9.857px rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+}
+.w2-hub__btn {
+  position: absolute;
+  inset: 38.56% 37.15% 35.73% 37.15%;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+.w2-hub__btn:disabled { cursor: default; }
+.w2-hub__btn:focus-visible { outline: 2px solid var(--icons-success-primary); outline-offset: 2px; }
+.w2-wheel:has(.w2-hub__btn:active:not(:disabled)) .w2-layer--btn { filter: brightness(1.15); }
 
 /* ---------- Rezultat dijalog ---------- */
 .result-text {

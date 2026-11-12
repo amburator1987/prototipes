@@ -46,10 +46,40 @@
           </div>
         </section>
 
-        <!-- Dijalog: rezultat (Figma 6373:16801) -->
-        <section class="dialog" id="resultDialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle" hidden>
+        <!-- Wheel 2: kružni točak (Figma 6427:11926). Prsten sa karticama se okreće, centar (SPIN + strelica) stoji. -->
+        <section class="dialog2" id="wheel2Dialog" role="dialog" aria-modal="true" aria-labelledby="w2Title" hidden>
+          <div class="w2-text">
+            <h2 class="w2-text__title" id="w2Title">Točak sreće</h2>
+            <p class="w2-text__body">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+            <div class="w2-text__info">
+              <img src="assets/w2/activity.svg" width="16" height="16" alt="">
+              <p>Lorem ipsum dolor sit amet</p>
+            </div>
+          </div>
+
+          <!-- wheel 634.42×634.42; slojevi centra – inset vrednosti (%) iz Figme -->
+          <div class="w2-wheel">
+            <div class="w2-ring" id="ring"></div>
+            <div class="w2-hub" aria-hidden="true">
+              <span class="w2-layer" style="inset:33.05% 31.64% 30.23% 31.64%"><span class="w2-fill" style="inset:-4.51%"><img src="assets/w2/hub-e4.svg" alt=""></span></span>
+              <span class="w2-layer" style="inset:38.56% 37.15% 35.73% 37.15%"><span class="w2-fill" style="inset:0"><img class="is-flipped" src="assets/w2/hub-e5.svg" alt=""></span></span>
+              <span class="w2-layer" style="inset:38.56% 37.15% 35.73% 37.15%"><span class="w2-fill" style="inset:0"><img class="is-flipped" src="assets/w2/hub-e10.svg" alt=""></span></span>
+              <span class="w2-layer" style="inset:40.96% 39.55% 38.14% 39.55%"><span class="w2-fill" style="inset:-18.52%"><img src="assets/w2/hub-e6.svg" alt=""></span></span>
+              <span class="w2-layer w2-layer--btn" style="inset:41.81% 40.4% 38.98% 40.4%"><span class="w2-fill" style="inset:-10.64%"><img src="assets/w2/hub-e7.svg" alt=""></span></span>
+              <span class="w2-layer w2-layer--btn" style="inset:41.95% 43.86% 49.58% 43.79%"><span class="w2-fill" style="inset:-10.42% -7.14%"><img src="assets/w2/hub-e8.svg" alt=""></span></span>
+              <span class="w2-layer w2-layer--btn" style="inset:41.95% 46.68% 53.46% 46.61%"><span class="w2-fill" style="inset:-34.62% -23.68%"><img src="assets/w2/hub-e9.svg" alt=""></span></span>
+              <span class="w2-hub__label" id="hubLabel">spin</span>
+              <span class="w2-layer" style="inset:34.4% 48.16% 61.93% 48.16%"><span class="w2-fill" style="inset:-70% -64.65% -50% -64.65%"><img src="assets/w2/hub-pointer.svg" alt=""></span></span>
+              <span class="w2-layer w2-layer--btn" style="inset:42.94% 41.53% 40.11% 41.53%"><span class="w2-fill" style="inset:-3.33%"><img class="is-flipped" src="assets/w2/hub-e11.svg" alt=""></span></span>
+            </div>
+            <button class="w2-hub__btn" id="hubBtn" type="button" aria-label="Zavrti točak"></button>
+          </div>
+        </section>
+
+        <!-- Dijalog: rezultat (mobile 6373:16801 – fiksiran na dno; desktop 6373:12421 – 400px, centriran) -->
+        <section class="dialog dialog--notice" id="resultDialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle" hidden>
           <header class="dialog__header">
-            <h2 class="dialog__title">Notifikacija</h2>
+            <h2 class="dialog__title">Točak sreće</h2>
             <button class="dialog__close" type="button" data-close aria-label="Zatvori">
               <img src="assets/close.svg" alt="" width="24" height="24">
             </button>
@@ -82,6 +112,13 @@
           <option value="8">8</option>
           <option value="9">9</option>
           <option value="10" selected>10</option>
+        </select>
+      </label>
+      <label class="dev-field">
+        <span class="dev-field__label">Dizajn</span>
+        <select class="dev-select" id="designSelect">
+          <option value="1" selected>wheel1</option>
+          <option value="2">wheel2</option>
         </select>
       </label>
       <label class="dev-field">
