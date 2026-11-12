@@ -657,16 +657,21 @@ img { display: block; }
   inset: 0;
   pointer-events: none;
 }
-/* table_games_ 1: 1538×865 na (-541, 93), blur 97px */
-.w2-bg__image {
+/* Ellipse 219: 1636×1308 na (-590, 430), #280071 blur 427; svg 3344×3016 (inset -65.29% / -52.2%) */
+.w2-bg__ellipse {
   position: absolute;
-  left: -541px;
-  top: 93px;
-  width: 1538px;
-  height: 865px;
+  left: -590px;
+  top: 430px;
+  width: 1636px;
+  height: 1308px;
+}
+.w2-bg__ellipse img {
+  position: absolute;
+  top: -65.29%;
+  left: -52.2%;
+  width: calc(100% + 2 * 52.2%);
+  height: calc(100% + 2 * 65.29%);
   max-width: none;
-  object-fit: cover;
-  filter: blur(97px);
 }
 
 /* Lead tekst: kartica rgba(30,39,51,0.6), radius 4, padding 16 (Frame 9);
