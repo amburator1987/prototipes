@@ -100,8 +100,11 @@
 
     <!-- Dev kontrole (nisu deo dizajna) -->
     <div class="dev-panel" id="devPanel">
-      <!-- Na telefonu je panel sklopljen u dugme da ne pokriva dizajn -->
-      <button class="dev-toggle" id="devToggle" type="button" aria-expanded="false" aria-controls="devBody">⚙ Kontrole</button>
+      <!-- Traka: Reset je uvek vidljiv; na telefonu su ostale kontrole sklopljene iza "Kontrole" -->
+      <div class="dev-panel__bar">
+        <button class="dev-reset" id="resetBtn" type="button">↺ Reset</button>
+        <button class="dev-toggle" id="devToggle" type="button" aria-expanded="false" aria-controls="devBody">⚙ Kontrole</button>
+      </div>
       <div class="dev-panel__body" id="devBody">
       <label class="dev-field">
         <span class="dev-field__label">Broj kartica</span>
@@ -131,7 +134,6 @@
           <option value="no">No (desktop)</option>
         </select>
       </label>
-      <button class="dev-reset" id="resetBtn" type="button">↺ Reset</button>
       </div>
     </div>
   </main>

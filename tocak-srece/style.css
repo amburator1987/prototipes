@@ -151,6 +151,8 @@ img { display: block; }
   gap: 8px;
 }
 .dev-toggle { display: none; }
+/* Desktop: selecti pa Reset, sve u jednom redu */
+.dev-panel__bar { order: 2; display: flex; align-items: center; gap: 8px; }
 
 .dev-field {
   display: flex;
@@ -226,9 +228,21 @@ img { display: block; }
     background: none;
     font-size: 14px;
   }
+  /* Gornji red: [Reset] [Kontrole], poravnato desno */
+  .dev-panel__bar {
+    order: 0;
+    align-self: flex-end;
+    justify-content: flex-end;
+  }
+  .dev-panel__bar .dev-reset {
+    min-height: 40px;
+    padding: 0 14px;
+    border-color: #4a515c;
+    background: rgba(21, 24, 29, 0.92);
+    font-size: 14px;
+  }
   .dev-toggle {
     display: block;
-    align-self: flex-end;
     min-height: 40px;
     padding: 0 14px;
     border: 1px solid #4a515c;
@@ -263,10 +277,6 @@ img { display: block; }
     min-height: 40px;
     padding: 4px 8px;
     font-size: 16px;
-  }
-  .dev-panel .dev-reset {
-    min-height: 44px;
-    font-size: 15px;
   }
 }
 
