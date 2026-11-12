@@ -48,12 +48,19 @@
 
         <!-- Wheel 2: kružni točak (Figma 6427:11926). Prsten sa karticama se okreće, centar (SPIN + strelica) stoji. -->
         <section class="dialog2" id="wheel2Dialog" role="dialog" aria-modal="true" aria-labelledby="w2Title" hidden>
+          <!-- Pozadina (option10): zamućena slika "table_games_ 1" + tamna elipsa iza točka -->
+          <div class="w2-bg" aria-hidden="true">
+            <img class="w2-bg__image" src="assets/w2/bg-table-games.jpg" alt="">
+            <span class="w2-bg__ellipse"><img src="assets/w2/bg-ellipse.svg" alt=""></span>
+          </div>
+
+          <!-- Lead tekst u poluprovidnoj kartici (Frame 9 → .wheel_text) -->
           <div class="w2-text">
-            <h2 class="w2-text__title" id="w2Title">Točak sreće</h2>
+            <h2 class="w2-text__title" id="w2Title">Mozzart Točak Sreće</h2>
             <p class="w2-text__body">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
             <div class="w2-text__info">
               <img src="assets/w2/activity.svg" width="16" height="16" alt="">
-              <p>Lorem ipsum dolor sit amet</p>
+              <p>Zavrti svoje kolo sreće</p>
             </div>
           </div>
 
