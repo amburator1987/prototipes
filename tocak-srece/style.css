@@ -668,22 +668,6 @@ img { display: block; }
   object-fit: cover;
   filter: blur(97px);
 }
-/* Ellipse 219: 568×454 na (-48, 198); svg 876×762 (inset -33.92% / -27.11%) */
-.w2-bg__ellipse {
-  position: absolute;
-  left: -48px;
-  top: 198px;
-  width: 568px;
-  height: 454px;
-}
-.w2-bg__ellipse img {
-  position: absolute;
-  top: -33.92%;
-  left: -27.11%;
-  width: calc(100% + 2 * 27.11%);
-  height: calc(100% + 2 * 33.92%);
-  max-width: none;
-}
 
 /* Lead tekst: kartica rgba(30,39,51,0.6), radius 4, padding 16 (Frame 9);
    unutra .wheel_text – Header 17/24 semibold, tekst 15/20 regular, ikonica 16px */
