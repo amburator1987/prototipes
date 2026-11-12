@@ -99,7 +99,10 @@
     </div>
 
     <!-- Dev kontrole (nisu deo dizajna) -->
-    <div class="dev-panel">
+    <div class="dev-panel" id="devPanel">
+      <!-- Na telefonu je panel sklopljen u dugme da ne pokriva dizajn -->
+      <button class="dev-toggle" id="devToggle" type="button" aria-expanded="false" aria-controls="devBody">⚙ Kontrole</button>
+      <div class="dev-panel__body" id="devBody">
       <label class="dev-field">
         <span class="dev-field__label">Broj kartica</span>
         <select class="dev-select" id="cardsSelect">
@@ -129,6 +132,7 @@
         </select>
       </label>
       <button class="dev-reset" id="resetBtn" type="button">↺ Reset</button>
+      </div>
     </div>
   </main>
 

@@ -401,6 +401,8 @@
 
   function resetWheel2() {
     ringAngle = 0;
+    w2Drag = null;
+    w2Wheel.classList.remove('is-dragging', 'is-locked');
     ring.style.transition = 'none';
     ring.style.transform = 'rotate(0deg)';
     var n = cardsCount;
@@ -418,6 +420,9 @@
     if (phase !== 'idle') return;
     phase = 'spinning';
     hubBtn.disabled = true;
+    w2Drag = null;
+    w2Wheel.classList.remove('is-dragging');
+    w2Wheel.classList.add('is-locked');
     setControlsDisabled(true);
 
     winIndex = pickWinner();
@@ -456,11 +461,93 @@
       card.querySelector('.award__glow img').src = 'assets/glow-noprize.svg';
     }
     phase = 'spinned';
+    w2Wheel.classList.remove('is-locked');
     hubBtn.disabled = false;
     hubLabel.textContent = W2_LABEL_DONE;
     hubBtn.setAttribute('aria-label', noPrize ? 'U redu' : 'Preuzmi nagradu');
     setControlsDisabled(false);
   }
+
+  /* ---------- Wheel 2: ručno okretanje (pre i posle spina) ----------
+     Prevlačenje levo-desno (miš ili prst) okreće prsten; po puštanju staje na najbližu
+     karticu (brz potez = sledeća). Točkić miša pomera za jednu karticu. */
+  var w2Wheel = ring.parentElement;
+  var W2_SNAP_MS = 320;
+  var w2Drag = null;
+  var w2Moved = false;
+
+  function w2Step() { return 360 / cardsCount; }
+
+  function setRing(angle, animateMs) {
+    ringAngle = angle;
+    ring.style.transition = animateMs ? 'transform ' + animateMs + 'ms cubic-bezier(0.2, 0.8, 0.2, 1)' : 'none';
+    ring.style.transform = 'rotate(' + angle + 'deg)';
+  }
+
+  function w2SnapTo(steps) {
+    setRing(steps * w2Step(), W2_SNAP_MS);
+  }
+
+  w2Wheel.addEventListener('pointerdown', function (e) {
+    if (phase === 'spinning' || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (e.target === hubBtn) return;   // SPIN/OK dugme ostaje klik
+    w2Drag = { id: e.pointerId, x: e.clientX, y: e.clientY, start: ringAngle, lastX: e.clientX, lastT: e.timeStamp, v: 0, active: false };
+    w2Moved = false;
+  });
+
+  w2Wheel.addEventListener('pointermove', function (e) {
+    if (!w2Drag || e.pointerId !== w2Drag.id) return;
+    var dx = e.clientX - w2Drag.x;
+    var dy = e.clientY - w2Drag.y;
+    if (!w2Drag.active) {
+      if (Math.abs(dx) < 6 || Math.abs(dx) < Math.abs(dy)) return;   // čekamo jasan horizontalni pokret
+      w2Drag.active = true;
+      w2Moved = true;
+      w2Wheel.classList.add('is-dragging');
+      try { w2Wheel.setPointerCapture(e.pointerId); } catch (err) { /* ignoriši */ }
+    }
+    // pomeraj po luku gornje kartice: ugao = dužina / poluprečnik
+    var radius = parseFloat(getComputedStyle(wheel2Dialog).getPropertyValue('--w2-radius')) || 227.6;
+    setRing(w2Drag.start + (dx / radius) * 180 / Math.PI, 0);
+    var dt = e.timeStamp - w2Drag.lastT;
+    if (dt > 0) w2Drag.v = (e.clientX - w2Drag.lastX) / dt;
+    w2Drag.lastX = e.clientX;
+    w2Drag.lastT = e.timeStamp;
+    e.preventDefault();
+  });
+
+  function w2EndDrag(e) {
+    if (!w2Drag || e.pointerId !== w2Drag.id) return;
+    var d = w2Drag;
+    w2Drag = null;
+    w2Wheel.classList.remove('is-dragging');
+    if (!d.active) return;
+    var steps = ringAngle / w2Step();
+    var target = Math.round(steps);
+    if (Math.abs(d.v) > 0.4) target = d.v > 0 ? Math.ceil(steps) : Math.floor(steps);
+    w2SnapTo(target);
+  }
+  w2Wheel.addEventListener('pointerup', w2EndDrag);
+  w2Wheel.addEventListener('pointercancel', w2EndDrag);
+
+  w2Wheel.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+  // posle prevlačenja ne okidaj klik na kartici/dugmetu
+  w2Wheel.addEventListener('click', function (e) {
+    if (w2Moved) { e.stopPropagation(); e.preventDefault(); w2Moved = false; }
+  }, true);
+
+  var w2WheelLock = false;
+  w2Wheel.addEventListener('wheel', function (e) {
+    if (phase === 'spinning') { e.preventDefault(); return; }
+    var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (!delta) return;
+    e.preventDefault();
+    if (w2WheelLock) return;
+    w2WheelLock = true;
+    w2SnapTo(Math.round(ringAngle / w2Step()) + (delta > 0 ? -1 : 1));
+    setTimeout(function () { w2WheelLock = false; }, 250);
+  }, { passive: false });
 
   hubBtn.addEventListener('click', function () {
     if (phase === 'idle') spin2();
@@ -574,6 +661,16 @@
 
   // Slike u karticama ne smeju da se "prevlače" kao fajl
   viewport.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+  /* ---------- Dev panel na telefonu: sklopi/otvori ---------- */
+  var devPanel = document.getElementById('devPanel');
+  var devToggle = document.getElementById('devToggle');
+  devToggle.addEventListener('click', function () {
+    var open = !devPanel.classList.contains('is-open');
+    devPanel.classList.toggle('is-open', open);
+    devToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    devToggle.textContent = open ? '✕ Zatvori' : '⚙ Kontrole';
+  });
 
   setMobile(readMobileFromUrl());
   setDesign(readDesignFromUrl());

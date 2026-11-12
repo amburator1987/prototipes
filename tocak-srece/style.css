@@ -143,6 +143,15 @@ img { display: block; }
   color: #c9ced6;
 }
 
+.dev-panel__body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.dev-toggle { display: none; }
+
 .dev-field {
   display: flex;
   align-items: center;
@@ -203,12 +212,61 @@ img { display: block; }
     border-radius: 0;
     box-shadow: none;
   }
+  /* Kontrole na telefonu: sklopljene u dugme gore desno; otvorene – puna širina, veliki tap targeti */
   .dev-panel {
     position: fixed;
     top: calc(8px + env(safe-area-inset-top, 0px));
     right: 8px;
-    z-index: 10;
-    opacity: 0.8;
+    z-index: 100;
+    max-width: calc(100vw - 16px);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 14px;
+  }
+  .dev-toggle {
+    display: block;
+    align-self: flex-end;
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid #4a515c;
+    border-radius: 999px;
+    background: rgba(21, 24, 29, 0.92);
+    color: #f2f4f7;
+    font: inherit;
+    cursor: pointer;
+  }
+  .dev-panel__body { display: none; }
+  .dev-panel.is-open {
+    left: 8px;
+    gap: 8px;
+  }
+  .dev-panel.is-open .dev-panel__body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #4a515c;
+    border-radius: 12px;
+    background: rgba(21, 24, 29, 0.97);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+  .dev-panel.is-open .dev-field {
+    justify-content: space-between;
+    gap: 12px;
+  }
+  /* 16px font sprečava auto-zoom na iOS-u pri otvaranju selecta */
+  .dev-panel .dev-select {
+    width: 150px;
+    min-height: 40px;
+    padding: 4px 8px;
+    font-size: 16px;
+  }
+  .dev-panel .dev-reset {
+    min-height: 44px;
+    font-size: 15px;
   }
 }
 
@@ -615,6 +673,14 @@ img { display: block; }
   height: var(--w2-size);
   transform: translateX(-50%);
 }
+
+/* Prevlačenje levo-desno okreće prsten (vertikalni pokret ostaje browseru) */
+.w2-wheel { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+@media (hover: hover) and (pointer: fine) {
+  .w2-wheel { cursor: grab; }
+}
+.w2-wheel.is-dragging { cursor: grabbing; }
+.w2-wheel.is-locked { cursor: default; }
 
 /* Prsten sa karticama – jedini deo koji se okreće */
 .w2-ring {
