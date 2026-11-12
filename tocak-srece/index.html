@@ -8,14 +8,14 @@
 </head>
 <body>
   <main class="stage">
-    <!-- Telefon okvir 436×800 (Figma: mobile 6373:16934) -->
+    <!-- Okvir: mobile 436×800 (6373:16934) ili desktop (lobby 6373:8047, dijalog 768px) -->
     <div class="phone" id="phone">
       <div class="overlay">
 
         <!-- Dijalog: Točak sreće -->
         <section class="dialog" id="wheelDialog" role="dialog" aria-modal="true" aria-labelledby="wheelDialogTitle">
           <header class="dialog__header">
-            <h2 class="dialog__title" id="wheelDialogTitle">Notifikacija</h2>
+            <h2 class="dialog__title" id="wheelDialogTitle">Točak sreće</h2>
             <button class="dialog__close" type="button" data-close aria-label="Zatvori">
               <img src="assets/close.svg" alt="" width="24" height="24">
             </button>
@@ -23,10 +23,16 @@
 
           <div class="dialog__slot">
             <div class="wheel">
-              <!-- .wheel_text -->
+              <!-- Ellipse 219: ambijentalni sjaj iza točka (6418:8206) -->
+              <span class="wheel__glow" aria-hidden="true"><img src="assets/wheel-glow.svg" alt=""></span>
+
+              <!-- .wheel_text (6373:1127) -->
               <div class="wheel-text">
-                <p class="wheel-text__title">Točak sreće</p>
-                <p class="wheel-text__body">Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.</p>
+                <p class="wheel-text__body">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                <div class="wheel-text__info">
+                  <img src="assets/activity.svg" width="24" height="24" alt="">
+                  <p>Lorem ipsum dolor sit amet</p>
+                </div>
               </div>
 
               <!-- .wheel_roller -->
@@ -67,6 +73,7 @@
       <label class="dev-field">
         <span class="dev-field__label">Broj kartica</span>
         <select class="dev-select" id="cardsSelect">
+          <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
@@ -75,6 +82,13 @@
           <option value="8">8</option>
           <option value="9">9</option>
           <option value="10" selected>10</option>
+        </select>
+      </label>
+      <label class="dev-field">
+        <span class="dev-field__label">Mobile</span>
+        <select class="dev-select" id="mobileSelect">
+          <option value="yes" selected>Yes</option>
+          <option value="no">No (desktop)</option>
         </select>
       </label>
       <button class="dev-reset" id="resetBtn" type="button">↺ Reset</button>

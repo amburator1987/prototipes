@@ -1,5 +1,5 @@
 /* =========================================================
-   Točak sreće – mobile prototip
+   Točak sreće – prototip (mobile + desktop)
    Vrednosti iz Figme (oQZJ0KnQIWgkG8yaHoqWtp)
    ========================================================= */
 
@@ -15,6 +15,8 @@
   --text-blocks-text-primary: #f9f8f8;
   --text-blocks-text-secondary: #efefef;
   --text-link: #fdb913;
+  --border-highlight-primary: #e1e1e1;           /* border/highlight-primary – tekst u .wheel_text */
+  --surface-content-interactive: #19212b;        /* pozadina lobby-ja (desktop) */
   --badges-surface-tertiary-attention: #f9f8f8;
   --badges-text-primary: #19212b;
   --icons-success-primary: #b7ffbe;
@@ -38,7 +40,7 @@
   --rhythm-s: 8px;
   --rhythm-md: 16px;
   --rhythm-lg: 24px;
-  --rhythm-4xl: 56px;
+  --rhythm-3xl: 48px;
 
   /* Radijusi */
   --radius-md: 12px;
@@ -51,6 +53,9 @@
   --phone-w: 436px;
   --phone-h: 800px;
   --dialog-max-h: 768px;
+  --dialog-w-desktop: 768px;
+  --desktop-w: 1280px;                           /* umanjen lobby 1920×1080 (16:9) */
+  --desktop-h: 720px;
   --award-size: 156px;
   --award-border-w: 0.991px;
   --award-shadow-blur: 3.889px;
@@ -166,11 +171,28 @@ img { display: block; }
 }
 .dev-reset:hover { background: #26303e; }
 
+/* ---------- Desktop (Mobile = No) – lobby 6373:8047 ---------- */
+.phone.is-desktop {
+  width: min(var(--desktop-w), calc(100vw - 32px));
+  height: var(--desktop-h);
+  background: var(--surface-content-interactive);
+  border-radius: 12px;
+}
+.phone.is-desktop .overlay {
+  justify-content: center;
+  padding: 10px;
+  border-radius: 0;
+}
+.phone.is-desktop .dialog {
+  width: var(--dialog-w-desktop);
+  max-width: 100%;
+}
+
 /* Pravi telefon: ceo viewport */
 @media (max-width: 500px) {
   body { background: var(--surface-page); }
   .stage { padding: 0; justify-content: flex-start; }
-  .phone {
+  .phone:not(.is-desktop) {
     width: 100%;
     max-width: var(--phone-w);
     height: 100vh;
@@ -237,27 +259,56 @@ img { display: block; }
 }
 
 /* ---------- wheel_ ---------- */
+/* wheel-and-text (6373:10633) */
 .wheel {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--rhythm-4xl);
+  gap: var(--rhythm-3xl);
   overflow: hidden;
 }
 
-/* .wheel_text */
+/* Ellipse 219: 320×256, centriran (left 50% - 1px); svg 628×564 (inset -60.16% / -48.13%) */
+.wheel__glow {
+  position: absolute;
+  left: calc(50% - 1px);
+  top: 50%;
+  width: 320px;
+  height: 256px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.wheel__glow img {
+  position: absolute;
+  top: -60.16%;
+  left: -48.13%;
+  width: calc(100% + 2 * 48.13%);
+  height: calc(100% + 2 * 60.16%);
+  max-width: none;
+}
+
+/* .wheel_text – MainFont15/Semibold15, border/highlight-primary */
 .wheel-text {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 17px;
-  line-height: 24px;
+  gap: var(--rhythm-md);
+  font-size: 15px;
+  line-height: 20px;
   font-weight: var(--font-weight-secondary);
+  color: var(--border-highlight-primary);
 }
-.wheel-text__title { color: var(--text-blocks-text-primary); }
-.wheel-text__body { color: var(--text-content-primary); opacity: 0.8; }
+.wheel-text__info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wheel-text__info img { flex-shrink: 0; width: 24px; height: 24px; }
+.wheel-text__info p { flex: 1 0 0; min-width: 1px; }
 
 /* ---------- .wheel_roller ---------- */
 .roller {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--rhythm-lg);
@@ -285,6 +336,10 @@ img { display: block; }
   cursor: grabbing;
   scroll-snap-type: none;
 }
+
+/* Posle spina (3+ kartice): dobitna kartica je centrirana, snap na centar */
+.roller__viewport.is-centered { scroll-padding-inline-start: 0; }
+.roller__viewport.is-centered .award { scroll-snap-align: center; }
 
 .roller__viewport.is-locked {
   cursor: default;
@@ -349,6 +404,8 @@ img { display: block; }
 }
 /* MainFont21/Bold21 – amount; MainFont11/Bold11 – cur (centriran na redu od 29.4px ⇒ ~6.5px niže) */
 .award__amount { flex-shrink: 0; font-size: 21px; line-height: 1.4; letter-spacing: 0; }
+/* type=default-no-prize: "Bez / Nagrade" u dva reda */
+.award--no-prize .award__amount { white-space: pre; text-align: center; }
 .award__currency { flex-shrink: 0; font-size: 11px; line-height: 16px; letter-spacing: 0; white-space: pre; }
 
 /* MainFont11/Regular11 – product */
@@ -392,7 +449,6 @@ img { display: block; }
   width: var(--glow-size);
   height: var(--glow-size);
   transform: translate(-50%, -50%);
-  opacity: 0;
   pointer-events: none;
 }
 /* svg 178×178 = 90 + 2×44 (blur), inset -48.89% */
@@ -431,10 +487,8 @@ img { display: block; }
 /* type=no-prize (6399:9594): ružičast okvir, bez reda za proizvod */
 .award--no-prize.is-winner { border-color: var(--surface-attention-primary); }
 .award--no-prize.is-winner .award__product { display: none; }
-.award.is-winner .award__glow,
 .award.is-winner .award__pointer { opacity: 1; }
 
-.award.is-winner .award__glow,
 .award.is-winner .award__pointer,
 .award.is-winner { transition: opacity 240ms ease-out, border-color 240ms ease-out; }
 
@@ -515,6 +569,5 @@ img { display: block; }
 
 @media (prefers-reduced-motion: reduce) {
   .award.is-winner,
-  .award.is-winner .award__glow,
   .award.is-winner .award__pointer { transition: none; }
 }
