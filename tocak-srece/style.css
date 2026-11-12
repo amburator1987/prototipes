@@ -693,19 +693,30 @@ img { display: block; }
 .w2-wheel.is-locked { cursor: default; }
 
 /* Prsten sa karticama – jedini deo koji se okreće */
+/* Bez will-change: inače browser kešira prsten kao bitmapu i posle rotacije tekst ostane mutan */
 .w2-ring {
   position: absolute;
   inset: 0;
-  will-change: transform;
 }
+/* Slot je već u konačnoj veličini (139.788px); kartica se umanjuje preko `zoom`, koji
+   ponovo raspoređuje i iscrtava sadržaj u toj veličini (oštro), umesto da skalira bitmapu kao scale() */
 .w2-slot {
+  --w2-card: calc(var(--award-size) * var(--w2-card-scale));
   position: absolute;
   left: 50%;
   top: 50%;
-  width: var(--award-size);
-  height: var(--award-size);
-  margin: calc(var(--award-size) / -2) 0 0 calc(var(--award-size) / -2);
-  transform: rotate(var(--a)) translateY(calc(-1 * var(--w2-radius))) scale(var(--w2-card-scale));
+  width: var(--w2-card);
+  height: var(--w2-card);
+  margin: calc(var(--w2-card) / -2) 0 0 calc(var(--w2-card) / -2);
+  transform: rotate(var(--a)) translateY(calc(-1 * var(--w2-radius)));
+}
+.w2-slot > .award { zoom: var(--w2-card-scale); }
+
+/* Browseri bez `zoom` (stariji Firefox): skaliranje kao rezerva */
+@supports not (zoom: 1) {
+  .w2-slot { width: var(--award-size); height: var(--award-size); margin: calc(var(--award-size) / -2) 0 0 calc(var(--award-size) / -2);
+    transform: rotate(var(--a)) translateY(calc(-1 * var(--w2-radius))) scale(var(--w2-card-scale)); }
+  .w2-slot > .award { zoom: normal; }
 }
 
 /* Centar (hub) – fiksan */

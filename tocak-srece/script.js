@@ -411,6 +411,7 @@
       html += '<div class="w2-slot" style="--a:' + (i * 360 / n) + 'deg">' + cardHtml(i) + '</div>';
     }
     ring.innerHTML = html;
+    updateRingZ(true);
     hubBtn.disabled = false;
     hubLabel.textContent = W2_LABEL_SPIN;
     hubBtn.setAttribute('aria-label', 'Zavrti točak');
@@ -451,6 +452,39 @@
       }, DURATION);
     });
   }
+
+  /* Redosled slojeva (Figma 6427:11926): kartica najbliža vrhu je iznad svih; idući u smeru
+     kazaljke svaka sledeća je ispod prethodne (desna ispod leve), pa je ona levo od centralne najniža.
+     Računa se prema trenutnom položaju na ekranu, pa važi i dok se prsten okreće. */
+  var lastZAngle = null;
+
+  function currentRingDeg() {
+    var t = getComputedStyle(ring).transform;
+    var m = t && t !== 'none' ? /matrix\(([^)]+)\)/.exec(t) : null;
+    if (!m) return 0;
+    var p = m[1].split(',');
+    return Math.atan2(parseFloat(p[1]), parseFloat(p[0])) * 180 / Math.PI;
+  }
+
+  function updateRingZ(force) {
+    var r = currentRingDeg();
+    if (!force && lastZAngle !== null && Math.abs(r - lastZAngle) < 0.01) return;
+    lastZAngle = r;
+    var slots = ring.children;
+    var n = slots.length;
+    if (!n) return;
+    var step = 360 / n;
+    for (var i = 0; i < n; i++) {
+      // ugao na ekranu (0 = vrh, u smeru kazaljke), pomeren za pola koraka da "centralna" pokrije ±step/2
+      var e = (((i * step + r + step / 2) % 360) + 360) % 360;
+      slots[i].style.zIndex = String(1000 - Math.floor(e));
+    }
+  }
+
+  (function zTick() {
+    if (!wheel2Dialog.hidden) updateRingZ(false);
+    requestAnimationFrame(zTick);
+  })();
 
   function finish2() {
     var card = ring.children[winIndex].firstElementChild;
