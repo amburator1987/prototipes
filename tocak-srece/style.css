@@ -683,7 +683,7 @@ img { display: block; }
   --w2-size: 737.58px;          /* simbol "wheel" (6427:11729) */
   --w2-radius: 264.61px;        /* centar točka → centar kartice */
   --w2-card-scale: 1.04178;     /* .wheel_award 162.517 / 156 */
-  --w2-from-bottom: -201.58px;  /* točak: top 254 u okviru visine 790 */
+  --w2-top: 294px;             /* točak: top 294 u okviru 455×790 */
 
   position: absolute;
   left: 0;
@@ -709,18 +709,19 @@ img { display: block; }
   border-radius: 24px;
 }
 
-/* Pozadina – koordinate u okviru 455×790 (option10), vezane za dno kao i točak */
+/* Pozadina, točak i ukrasi – koordinate u okviru 455×790 (option10), vezane za VRH:
+   na niskom ekranu lead tekst ostaje vidljiv, a točak se odseca odozdo */
 .w2-bg {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-/* Mask group: oblast 450×574 na (3, 216); maska je gradijent providno → puno (odozgo nadole);
+/* Mask group: oblast 450×574 na (3, 256); maska je gradijent providno → puno (odozgo nadole);
    slika 1120×629 pomerena (-335, 3) unutar oblasti */
 .w2-bg__game {
   position: absolute;
   left: calc(50% - 224.6px);
-  bottom: 0;
+  top: 256px;
   width: 450px;
   height: 574px;
   overflow: hidden;
@@ -740,7 +741,7 @@ img { display: block; }
 .w2-wheel {
   position: absolute;
   left: calc(50% + 0.17px);
-  bottom: var(--w2-from-bottom);
+  top: var(--w2-top);
   width: var(--w2-size);
   height: var(--w2-size);
   transform: translateX(-50%);
@@ -827,21 +828,21 @@ img { display: block; }
 .w2-wheel:has(.w2-hub__btn:active:not(:disabled)) .w2-layer--btn { filter: brightness(1.15); }
 
 /* Ukrasna grafika (6443:16739, 6443:16755) – fiksna, iznad točka i teksta; pozicija
-   od centra okvira i od dna (kao točak), centar slike + rotacija iz Figme */
+   od centra okvira i od vrha (kao točak), centar slike + rotacija iz Figme */
 .w2-deco {
   position: absolute;
   z-index: 2;
   left: calc(50% + var(--dx));
-  bottom: var(--cy);
+  top: var(--cy);
   width: var(--w);
   height: var(--h);
-  transform: translate(-50%, 50%) rotate(var(--r));
+  transform: translate(-50%, -50%) rotate(var(--r));
   pointer-events: none;
 }
 .w2-deco img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.w2-deco--wheel { --dx: 137.39px; --cy: 534.46px; --w: 106px;    --h: 113px;    --r: 7deg; }
-.w2-deco--x3    { --dx: -127.36px; --cy: 224.92px; --w: 111.87px; --h: 111.27px; --r: -30deg; }
-.w2-deco--x2    { --dx: 144.64px;  --cy: 118.29px; --w: 106.127px; --h: 105.559px; --r: 15deg; }
+.w2-deco--wheel { --dx: 137.39px; --cy: 295.54px; --w: 106px;    --h: 113px;    --r: 7deg; }
+.w2-deco--x3    { --dx: -127.36px; --cy: 605.08px; --w: 111.87px; --h: 111.27px; --r: -30deg; }
+.w2-deco--x2    { --dx: 144.64px;  --cy: 711.71px; --w: 106.127px; --h: 105.559px; --r: 15deg; }
 
 /* "Buzz" ukrasa: kratko diskretno drmanje pa pauza; redom x3 (0s), točak (1s), x2 (2s)
    u ciklusu od 4s – x3 i x2 se smenjuju kao da bira između njih.
