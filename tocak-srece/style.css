@@ -704,10 +704,11 @@ img { display: block; }
    Wheel 2 – kružni točak (Figma 6427:11926, okvir 455×790)
    ========================================================= */
 .dialog2 {
-  --w2-size: 737.58px;          /* simbol "wheel" (6427:11729) */
-  --w2-radius: 264.61px;        /* centar točka → centar kartice */
-  --w2-card-scale: 1.04178;     /* .wheel_award 162.517 / 156 */
-  --w2-top: 294px;             /* točak: top 294 u okviru 455×790 */
+  /* Točak i ukrasi su 90% veličine iz Figme i podignuti 100px (centar točka 662.79 → 562.79) */
+  --w2-size: 663.82px;          /* simbol "wheel" (6427:11729): 737.58 × 0.9 */
+  --w2-radius: 238.15px;        /* centar točka → centar kartice: 264.61 × 0.9 */
+  --w2-card-scale: 0.93760;     /* .wheel_award 162.517 / 156 × 0.9 */
+  --w2-top: 230.88px;           /* 562.79 − 663.82 / 2 */
 
   position: absolute;
   left: 0;
@@ -829,13 +830,13 @@ img { display: block; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 27.086px;
+  font-size: 24.377px;          /* 27.086 × 0.9 */
   line-height: normal;
   font-weight: 800;
-  letter-spacing: 4.8755px;
+  letter-spacing: 4.388px;
   text-transform: uppercase;
   color: #fff;
-  text-shadow: 0 0 11.46px rgba(255, 255, 255, 0.65);
+  text-shadow: 0 0 10.314px rgba(255, 255, 255, 0.65);
   white-space: nowrap;
 }
 .w2-hub__btn {
@@ -864,9 +865,10 @@ img { display: block; }
   pointer-events: none;
 }
 .w2-deco img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.w2-deco--wheel { --dx: 137.39px; --cy: 295.54px; --w: 106px;    --h: 113px;    --r: 7deg; }
-.w2-deco--x3    { --dx: -127.36px; --cy: 605.08px; --w: 111.87px; --h: 111.27px; --r: -30deg; }
-.w2-deco--x2    { --dx: 144.64px;  --cy: 711.71px; --w: 106.127px; --h: 105.559px; --r: 15deg; }
+/* Ukrasi: 90% veličine, a razmak od centra točka umanjen za 10% da ostanu na istom mestu u odnosu na točak */
+.w2-deco--wheel { --dx: 123.65px;  --cy: 232.26px; --w: 95.4px;   --h: 101.7px;  --r: 7deg; }
+.w2-deco--x3    { --dx: -114.62px; --cy: 510.85px; --w: 100.68px; --h: 100.14px; --r: -30deg; }
+.w2-deco--x2    { --dx: 130.18px;  --cy: 606.82px; --w: 95.51px;  --h: 95.0px;   --r: 15deg; }
 
 /* "Buzz" ukrasa: kratko diskretno drmanje pa pauza; redom x3 (0s), točak (1s), x2 (2s)
    u ciklusu od 4s – x3 i x2 se smenjuju kao da bira između njih.

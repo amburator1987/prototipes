@@ -558,7 +558,7 @@
       try { w2Wheel.setPointerCapture(e.pointerId); } catch (err) { /* ignoriši */ }
     }
     // pomeraj po luku gornje kartice: ugao = dužina / poluprečnik
-    var radius = parseFloat(getComputedStyle(wheel2Dialog).getPropertyValue('--w2-radius')) || 264.61;
+    var radius = parseFloat(getComputedStyle(wheel2Dialog).getPropertyValue('--w2-radius')) || 238.15;
     setRing(w2Drag.start + (dx / radius) * 180 / Math.PI, 0);
     var dt = e.timeStamp - w2Drag.lastT;
     if (dt > 0) w2Drag.v = (e.clientX - w2Drag.lastX) / dt;
