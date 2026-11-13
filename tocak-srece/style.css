@@ -210,10 +210,20 @@ img { display: block; }
   .phone:not(.is-desktop) {
     width: 100%;
     max-width: var(--phone-w);
+    max-width: none;
     height: 100vh;
     height: 100dvh;
     border-radius: 0;
     box-shadow: none;
+  }
+  /* wheel2 na pravom telefonu: ceo ekran, bez praznog prostora gore/dole.
+     Gornji border = zona ispod notch-a/status bara (viewport-fit=cover), iste boje kao pozadina,
+     pa sadržaj (vezan za vrh) kreće ispod nje. */
+  .phone:not(.is-desktop) .dialog2 {
+    top: 0;
+    height: auto;
+    border-radius: 0;
+    border-top: env(safe-area-inset-top, 0px) solid var(--surface-nav-primary);
   }
   /* Kontrole na telefonu: sklopljene u dugme gore desno; otvorene – puna širina, veliki tap targeti */
   .dev-panel {
@@ -272,6 +282,13 @@ img { display: block; }
     justify-content: space-between;
     gap: 12px;
   }
+  /* wheel2 je preko celog ekrana i X je gore desno – kontrole idu dole desno
+     (otvoren panel iznad trake sa dugmićima) */
+  body:has(#wheel2Dialog:not([hidden])) .dev-panel {
+    top: auto;
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+  body:has(#wheel2Dialog:not([hidden])) .dev-panel__bar { order: 2; }
   /* 16px font sprečava auto-zoom na iOS-u pri otvaranju selecta */
   .dev-panel .dev-select {
     width: 150px;
