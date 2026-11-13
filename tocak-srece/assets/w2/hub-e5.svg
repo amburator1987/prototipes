@@ -1,9 +1,9 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="163.086" height="163.086" viewBox="0 0 163.086 163.086" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="189.603" height="189.604" viewBox="0 0 189.603 189.604" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="Ellipse 5">
-<ellipse cx="81.5429" cy="81.5429" rx="81.5429" ry="81.5429" fill="#007D13"/>
-<mask id="stroke0_0_371" fill="white">
-<path d="M163.086 81.5429C163.086 126.578 126.578 163.086 81.5429 163.086C36.508 163.086 0 126.578 0 81.5429C0 36.508 36.508 0 81.5429 0C126.578 0 163.086 36.508 163.086 81.5429Z"/>
+<ellipse cx="94.8017" cy="94.8018" rx="94.8017" ry="94.8018" fill="#007D13"/>
+<mask id="stroke0_0_432" fill="white">
+<path d="M189.603 94.8018C189.603 147.159 147.159 189.604 94.8017 189.604C42.4442 189.604 0 147.159 0 94.8018C0 42.4442 42.4442 0 94.8017 0C147.159 0 189.603 42.4442 189.603 94.8018Z"/>
 </mask>
-<ellipse cx="81.5429" cy="81.5429" rx="81.5429" ry="81.5429" stroke-width="1.79215" stroke="#41444D" mask="url(#stroke0_0_371)"/>
+<ellipse cx="94.8017" cy="94.8018" rx="94.8017" ry="94.8018" stroke-width="2.08355" stroke="#41444D" mask="url(#stroke0_0_432)"/>
 </g>
 </svg>
