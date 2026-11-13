@@ -219,6 +219,13 @@ img { display: block; }
   /* wheel2 na pravom telefonu: ceo ekran, bez praznog prostora gore/dole.
      Gornji border = zona ispod notch-a/status bara (viewport-fit=cover), iste boje kao pozadina,
      pa sadržaj (vezan za vrh) kreće ispod nje. */
+  /* Pozadina stranice iste boje kao wheel2 – vidi se iza status bara, ispod trake
+     browsera (iOS Safari je providna/plutajuća) i pri "overscroll" povlačenju */
+  html:has(.phone:not(.is-desktop) #wheel2Dialog:not([hidden])),
+  html:has(.phone:not(.is-desktop) #wheel2Dialog:not([hidden])) body,
+  html:has(.phone:not(.is-desktop) #wheel2Dialog:not([hidden])) .phone {
+    background: var(--surface-nav-primary);
+  }
   .phone:not(.is-desktop) .dialog2 {
     top: 0;
     height: auto;

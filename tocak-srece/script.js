@@ -209,6 +209,23 @@
     designSelect.value = String(d);
   }
 
+  /* Status bar i traka browsera na telefonu prate pozadinu: dok je wheel2 otvoren
+     (mobilni prikaz) – ljubičasta, inače boja stranice. Prati se `hidden` dijaloga
+     i `is-desktop`, pa radi za svaki put kroz tok (reset, rezultat, zatvaranje). */
+  var themeMeta = document.getElementById('themeColor');
+  var THEME_DEFAULT = themeMeta ? themeMeta.getAttribute('content') : '';
+  var THEME_W2 = '#280071';
+  function syncThemeColor() {
+    if (!themeMeta) return;
+    var w2 = !wheel2Dialog.hidden && !phoneEl.classList.contains('is-desktop');
+    themeMeta.setAttribute('content', w2 ? THEME_W2 : THEME_DEFAULT);
+  }
+  if (window.MutationObserver) {
+    var themeObs = new MutationObserver(syncThemeColor);
+    themeObs.observe(wheel2Dialog, { attributes: true, attributeFilter: ['hidden'] });
+    themeObs.observe(phoneEl, { attributes: true, attributeFilter: ['class'] });
+  }
+
   function setControlsDisabled(disabled) {
     cardsSelect.disabled = disabled;
     mobileSelect.disabled = disabled;
