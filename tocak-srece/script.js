@@ -79,9 +79,6 @@
     var a = AWARDS[awardIdx];
     var currency = a.currency ? '<span class="award__currency"> ' + escapeHtml(a.currency) + '</span>' : '';
     var badge = a.badge ? '<span class="award__badge">' + escapeHtml(a.badge) + '</span>' : '';
-    // .wheel_award type=no-prize (6399:9594) ima svoj krug i strelicu (#ffcdcd)
-    // Glow (Ellipse 13) je uvek vidljiv i zelen; ružičasti glow-noprize tek kad no-prize dobije
-    var sfx = a.noPrize ? '-noprize' : '';
     return (
       '<div class="award' + (a.noPrize ? ' award--no-prize' : '') + '" data-award="' + awardIdx + '">' +
         '<span class="award__glow" aria-hidden="true"><img src="assets/glow.svg" alt=""></span>' +
@@ -92,7 +89,7 @@
             '<p class="award__product">' + (a.product ? escapeHtml(a.product) : '&nbsp;') + '</p>' +
           '</div>' +
         '</div>' +
-        '<span class="award__pointer" aria-hidden="true"><img src="assets/pointer' + sfx + '.svg" alt=""></span>' +
+        '<span class="award__pointer" aria-hidden="true"><img src="assets/pointer.svg" alt=""></span>' +
         badge +
       '</div>'
     );
@@ -207,6 +204,8 @@
   function setDesign(d) {
     design = d;
     designSelect.value = String(d);
+    // wheel2 + desktop (Mobile = No) je cela stranica (Figma Dt 1920–800), ne lobby okvir
+    phoneEl.classList.toggle('is-w2', d === 2);
   }
 
   /* Status bar i traka browsera na telefonu prate pozadinu: dok je wheel2 otvoren
@@ -376,11 +375,6 @@
     var winnerCard = track.children[w];
     var noPrize = !!AWARDS[winIndex].noPrize;
     winnerCard.classList.add('is-winner');
-    if (noPrize) {
-      // type=no-prize: crvena ikonica zabrane i ružičast glow umesto zelenih
-      winnerCard.querySelector('.wicon').src = 'assets/slash-noprize.svg';
-      winnerCard.querySelector('.award__glow img').src = 'assets/glow-noprize.svg';
-    }
 
     phase = 'spinned';
     spinBtn.disabled = false;
@@ -507,10 +501,6 @@
     var card = ring.children[winIndex].firstElementChild;
     var noPrize = !!AWARDS[winIndex].noPrize;
     card.classList.add('is-winner');
-    if (noPrize) {
-      card.querySelector('.wicon').src = 'assets/slash-noprize.svg';
-      card.querySelector('.award__glow img').src = 'assets/glow-noprize.svg';
-    }
     phase = 'spinned';
     w2Wheel.classList.remove('is-locked');
     hubBtn.disabled = false;

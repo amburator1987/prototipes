@@ -25,7 +25,6 @@
   --buttons-text-primary-default: #f9f8f8;
   --border-primary: #313540;                     /* border/border-primary – okvir obične kartice */
   --award-border-winner: #057d11;
-  --surface-attention-primary: #ffcdcd;          /* okvir kartice type=no-prize */
   --buttons-surface-secondary-default: #41444d;
   --buttons-text-secondary-default: #78e483;
   --award-shadow: rgba(0, 0, 0, 0.45);
@@ -60,6 +59,7 @@
   --desktop-h: 720px;
   --award-size: 156px;
   --award-border-w: 0.991px;
+  --award-border-w-selected: 4px;                /* borderwidth/sm – izabrana kartica (prize-won / no-prize) */
   --award-shadow-blur: 3.889px;
   --badge-top: -7.99px;                          /* badge prelazi gornju ivicu kartice */
   --badge-h: 16px;
@@ -67,6 +67,8 @@
   --pointer-w: 156px;
   --pointer-h: 18px;
   --pointer-bottom: -0.99px;
+  --badge-top-selected: -11px;                   /* uz okvir 4px badge ostaje na istoj visini */
+  --pointer-bottom-selected: -4px;               /* trougao ostaje na spoljnoj ivici */
   --award-gap: 8px;
   --roller-pad: 8px;
   --icon-size: 40px;
@@ -634,14 +636,19 @@ img { display: block; }
   max-width: none;
 }
 
-.award.is-winner { border-color: var(--award-border-winner); }
+/* Izabrana kartica (6373:2077, type=prize-won i no-prize): zeleni okvir 4px (borderwidth/sm),
+   isti i za "Bez Nagrade"; badge/strelica se pomeraju za debljinu okvira da ostanu na mestu */
+.award.is-winner,
+.award.is-active {
+  border-width: var(--award-border-w-selected);
+  border-color: var(--award-border-winner);
+}
+.award.is-winner .award__badge,
+.award.is-active .award__badge { top: var(--badge-top-selected); }
+.award.is-winner .award__pointer,
+.award.is-active .award__pointer { bottom: var(--pointer-bottom-selected); }
 
-/* Tokom spina: kartica na kojoj je "kursor" (samo okvir, bez strelice) */
-.award.is-active { border-color: var(--award-border-winner); }
-.award--no-prize.is-active { border-color: var(--surface-attention-primary); }
-
-/* type=no-prize (6399:9594): ružičast okvir, bez reda za proizvod */
-.award--no-prize.is-winner { border-color: var(--surface-attention-primary); }
+/* type=no-prize (6399:9594): bez reda za proizvod */
 .award--no-prize.is-winner .award__product { display: none; }
 .award.is-winner .award__pointer { opacity: 1; }
 
@@ -924,4 +931,140 @@ img { display: block; }
 @media (prefers-reduced-motion: reduce) {
   .award.is-winner,
   .award.is-winner .award__pointer { transition: none; }
+}
+
+/* =========================================================
+   Wheel 2 – desktop (Mobile = No), Figma Dt 1920 … 800 (6423:10615)
+   Cela stranica umesto lobby okvira. Raspored je isti za svaku širinu, samo centriran:
+   lead (max 768) na 56px, točak 737.58 u punoj veličini 32px ispod, 88px dole.
+   Kad sadržaj (~1124px) ne stane po visini – vertikalni skrol sa tankim scrollbarom desno.
+   ========================================================= */
+.w2-bg__glow,
+.lead__more { display: none; }
+
+.phone.is-desktop.is-w2 {
+  position: fixed;
+  inset: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--w2-dt-bg);
+  overflow-x: hidden;
+  overflow-y: auto;
+  --w2-dt-bg: #000049;
+}
+/* scroll-bar (6459:20546): traka 4px, #41444d, radius 32, odmak 4px/2px */
+.phone.is-desktop.is-w2::-webkit-scrollbar { width: 12px; background: transparent; }
+.phone.is-desktop.is-w2::-webkit-scrollbar-track { background: transparent; }
+.phone.is-desktop.is-w2::-webkit-scrollbar-thumb {
+  background: #41444d;
+  border: solid transparent;
+  border-width: 2px 4px;
+  background-clip: padding-box;
+  border-radius: 32px;
+}
+@supports not selector(::-webkit-scrollbar) {
+  .phone.is-desktop.is-w2 { scrollbar-width: thin; scrollbar-color: #41444d transparent; }
+}
+
+.phone.is-desktop.is-w2 .overlay {
+  position: relative;
+  inset: auto;
+  min-height: 100%;
+  padding: 0;
+  background: transparent;
+}
+.phone.is-desktop.is-w2 .dialog--notice { align-self: center; margin: auto; }
+
+.phone.is-desktop.is-w2 .dialog2 {
+  --w2-size: 737.58px;          /* simbol "wheel" u punoj veličini */
+  --w2-radius: 264.61px;
+  --w2-card-scale: 1.04178;     /* .wheel_award 162.517 / 156 */
+
+  position: relative;
+  inset: auto;
+  flex: 1 0 auto;
+  align-self: stretch;
+  width: auto;
+  height: auto;
+  transform: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--rhythm-xl, 32px);
+  padding: 56px 16px 88px;
+  background: var(--w2-dt-bg);
+  border-radius: 0;
+  overflow: hidden;
+}
+.phone.is-desktop.is-w2 .dialog2[hidden] { display: none; }
+
+.phone.is-desktop.is-w2 .lead--w2 {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 768px;
+}
+.phone.is-desktop.is-w2 .lead__more { display: inline; }
+
+/* Ellipse 219: 1636×1308, centar vodoravno, vrh na 430px; zamućenje je u SVG-u (odatle -854/-424) */
+.phone.is-desktop.is-w2 .w2-bg__glow {
+  display: block;
+  position: absolute;
+  left: 50%;
+  /* Ellipse 219: constraint center – centar elipse na 50% + 544px visine stranice;
+     SVG je 3344×3016 zbog zamućenja, centar elipse mu je na 1508px */
+  top: calc(50% + 544px - 1508px);
+  width: 3344px;
+  height: 3016px;
+  transform: translateX(-50%);
+}
+.phone.is-desktop.is-w2 .w2-bg__glow img { width: 100%; height: 100%; max-width: none; }
+
+/* Mask group (6450:18252): constraint bottom + scale – dno zakačeno za dno stranice,
+   vrh na 26.57% visine (287/1080), širina prati visinu (1295:793), centrirano.
+   Maska i slika su u procentima oblasti, pa se sve skalira zajedno:
+   radijalni gradijent centar 641.75/593.72, poluprečnici 546.23 × 593.72;
+   slika 1537.66×864.45 pomerena (-124.49, -33.55) */
+.phone.is-desktop.is-w2 .w2-bg__game {
+  left: calc(50% + 0.5px);
+  top: 26.574%;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  aspect-ratio: 1295 / 793;
+  transform: translateX(-50%);
+  overflow: visible;
+  -webkit-mask-image: radial-gradient(42.180% 74.869% at 49.556% 74.869%, #000, transparent);
+  mask-image: radial-gradient(42.180% 74.869% at 49.556% 74.869%, #000, transparent);
+}
+.phone.is-desktop.is-w2 .w2-bg__game img {
+  left: -9.613%;
+  top: -4.230%;
+  width: 118.738%;
+  height: 109.010%;
+}
+
+.phone.is-desktop.is-w2 .w2-wheel {
+  position: relative;
+  left: auto;
+  top: auto;
+  flex: none;
+  transform: none;
+}
+.phone.is-desktop.is-w2 .w2-hub__label {
+  font-size: 27.086px;
+  letter-spacing: 4.876px;
+  text-shadow: 0 0 11.46px rgba(255, 255, 255, 0.65);
+}
+/* Na desktop dizajnu nema ukrasne grafike */
+.phone.is-desktop.is-w2 .w2-deco { display: none; }
+
+/* Dev kontrole plutaju dole desno, iznad stranice */
+body:has(.phone.is-desktop.is-w2) .dev-panel {
+  position: fixed;
+  right: 24px;
+  bottom: 16px;
+  z-index: 100;
 }
