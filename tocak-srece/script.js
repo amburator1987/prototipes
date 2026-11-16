@@ -42,6 +42,7 @@
   var cardsSelect = document.getElementById('cardsSelect');
   var mobileSelect = document.getElementById('mobileSelect');
   var designSelect = document.getElementById('designSelect');
+  var shapeSelect = document.getElementById('shapeSelect');
   var wheel2Dialog = document.getElementById('wheel2Dialog');
   var ring = document.getElementById('ring');
   var hubBtn = document.getElementById('hubBtn');
@@ -224,6 +225,20 @@
     themeObs.observe(wheel2Dialog, { attributes: true, attributeFilter: ['hidden'] });
     themeObs.observe(phoneEl, { attributes: true, attributeFilter: ['class'] });
   }
+
+  /* ---------- Oblik kartica: kockaste / okrugle (?shape=round, Figma 6373:2077 radius 99) ----------
+     Samo izgled – menja se odmah, bez reseta toka */
+  function readShapeFromUrl() {
+    return /[?&]shape=round(&|$)/.test(window.location.search) ? 'round' : 'square';
+  }
+  function setShape(shape) {
+    shapeSelect.value = shape;
+    phoneEl.classList.toggle('cards-round', shape === 'round');
+  }
+  shapeSelect.addEventListener('change', function () {
+    setShape(shapeSelect.value);
+    writeParamToUrl('shape', shapeSelect.value === 'round' ? 'round' : null);
+  });
 
   function setControlsDisabled(disabled) {
     cardsSelect.disabled = disabled;
@@ -715,6 +730,7 @@
 
   setMobile(readMobileFromUrl());
   setDesign(readDesignFromUrl());
+  setShape(readShapeFromUrl());
   setCards(readCardsFromUrl());
   reset();
 })();

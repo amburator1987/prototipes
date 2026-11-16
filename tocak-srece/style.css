@@ -1068,3 +1068,7 @@ body:has(.phone.is-desktop.is-w2) .dev-panel {
   bottom: 16px;
   z-index: 100;
 }
+
+/* Okrugle kartice (dev: Kartice = Okrugle, ?shape=round) – Figma 6373:2077, radius 99px.
+   Sve ostalo (okvir, badge, trouglić, sjaj) isto kao kod kockastih. */
+.phone.cards-round .award { border-radius: 99px; }
