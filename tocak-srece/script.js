@@ -195,19 +195,36 @@
     phoneEl.classList.toggle('is-desktop', !isMobile);
   }
 
-  /* ---------- Dizajn: wheel1 (roler) / wheel2 (kružni točak) (?wheel=2) ---------- */
+  /* ---------- Dizajn: wheel1 (roler) / wheel2 (kružni točak) (?wheel=2) /
+     wheel3 (manji kružni točak, Figma 6546:8626) (?wheel=3) ----------
+     wheel3 koristi isti dijalog kao wheel2 (.dialog2), samo sa klasom is-w3 (mobilni raspored);
+     na desktopu je isti kao wheel2. */
   var design = 1;
 
   function readDesignFromUrl() {
-    return getParam('wheel') === 2 ? 2 : 1;
+    var w = getParam('wheel');
+    return w === 2 || w === 3 ? w : 1;
   }
 
   function setDesign(d) {
     design = d;
     designSelect.value = String(d);
     // wheel2 + desktop (Mobile = No) je cela stranica (Figma Dt 1920–800), ne lobby okvir
-    phoneEl.classList.toggle('is-w2', d === 2);
+    phoneEl.classList.toggle('is-w2', d !== 1);
+    wheel2Dialog.classList.toggle('is-w3', d === 3);
+    fitWheel3();
   }
+
+  /* wheel3 (mobilni): okvir u Figmi je 455.23px širok; na užem ekranu se točak i ukrasi
+     proporcionalno umanje (--w3-k) da kartice ne izađu van ekrana */
+  var W3_FRAME_W = 455.23;
+  function fitWheel3() {
+    var w = wheel2Dialog.clientWidth;
+    var k = w ? Math.min(1, w / W3_FRAME_W) : 1;
+    wheel2Dialog.style.setProperty('--w3-k', k.toFixed(4));
+  }
+  if (window.ResizeObserver) new ResizeObserver(fitWheel3).observe(wheel2Dialog);
+  else window.addEventListener('resize', fitWheel3);
 
   /* Status bar i traka browsera na telefonu prate pozadinu: dok je wheel2 otvoren
      (mobilni prikaz) – ljubičasta, inače boja stranice. Prati se `hidden` dijaloga
@@ -273,7 +290,7 @@
     resetWheel2();
 
     wheelDialog.hidden = design !== 1;
-    wheel2Dialog.hidden = design !== 2;
+    wheel2Dialog.hidden = design === 1;
     resultDialog.hidden = true;
   }
 
@@ -563,7 +580,8 @@
       try { w2Wheel.setPointerCapture(e.pointerId); } catch (err) { /* ignoriši */ }
     }
     // pomeraj po luku gornje kartice: ugao = dužina / poluprečnik
-    var radius = parseFloat(getComputedStyle(wheel2Dialog).getPropertyValue('--w2-radius')) || 238.15;
+    // poluprečnik prstena = 0.35875 × veličina točka (isti odnos u svim varijantama)
+    var radius = (w2Wheel.offsetWidth * 0.35875) || 238.15;
     setRing(w2Drag.start + (dx / radius) * 180 / Math.PI, 0);
     var dt = e.timeStamp - w2Drag.lastT;
     if (dt > 0) w2Drag.v = (e.clientX - w2Drag.lastX) / dt;
@@ -641,9 +659,9 @@
   });
   designSelect.addEventListener('change', function () {
     if (phase === 'spinning') return;
-    var d = designSelect.value === '2' ? 2 : 1;
+    var d = parseInt(designSelect.value, 10) || 1;
     setDesign(d);
-    writeParamToUrl('wheel', d === 2 ? 2 : null);
+    writeParamToUrl('wheel', d === 1 ? null : d);
     reset();
   });
   Array.prototype.forEach.call(document.querySelectorAll('[data-close]'), function (b) {

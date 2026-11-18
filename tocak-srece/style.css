@@ -905,6 +905,40 @@ img { display: block; }
   .w2-deco--x2 img { animation: none; }
 }
 
+/* =========================================================
+   Wheel 3 – manji kružni točak (Figma 6546:8626, okvir 455.23×790), samo mobilni;
+   na desktopu (Mobile = No) je isti kao wheel2.
+   Točak 451.15px, horizontalno centriran i vezan za DNO okvira (kao u Figmi), ali nikad
+   iznad y=339px (Figma pozicija) – na niskom ekranu se odseca odozdo umesto da uđe u tekst.
+   --w3-k (script.js): umanjenje kad je ekran uži od 455.23px.
+   ========================================================= */
+.phone:not(.is-desktop) .dialog2.is-w3 {
+  --w3-k: 1;
+  --w2-size: calc(451.15px * var(--w3-k));        /* simbol "wheel" 6546:8632 */
+  --w2-radius: calc(161.85px * var(--w3-k));      /* centar točka → centar kartice */
+  --w2-card-scale: calc(0.63722 * var(--w3-k));   /* .wheel_award 99.406 / 156 */
+  --w2-top: max(339px, calc(100% - var(--w2-size)));
+}
+/* Pozadina (Mask group) prati točak: u Figmi počinje 83px iznad njega (256 vs 339) */
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-bg__game {
+  top: calc(var(--w2-top) - 83px);
+}
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-hub__label {
+  font-size: calc(16.568px * var(--w3-k));
+  letter-spacing: calc(2.9822px * var(--w3-k));
+  text-shadow: 0 0 calc(7.009px * var(--w3-k)) rgba(255, 255, 255, 0.65);
+}
+/* Ukrasi: pomeraj centra slike od centra okvira (x) i od centra točka (y) iz Figme */
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-deco {
+  left: calc(50% + var(--dx) * var(--w3-k));
+  top: calc(var(--w2-top) + var(--w2-size) / 2 + var(--dy) * var(--w3-k));
+  width: calc(var(--w) * var(--w3-k));
+  height: calc(var(--h) * var(--w3-k));
+}
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-deco--wheel { --dx: 128.77px;  --dy: -219.46px; --w: 117.727px; --h: 124.812px; --r: 7deg; }      /* Character 3 (6546:8633) */
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-deco--x2    { --dx: -158.06px; --dy: -191.45px; --w: 106.127px; --h: 105.559px; --r: -32.82deg; } /* x2 (6546:8635) */
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-deco--x3    { --dx: 198.0px;   --dy: 195.58px;  --w: 111.87px;  --h: 111.271px; --r: -30deg; }    /* x3 (6546:8634) */
+
 /* ---------- Rezultat dijalog ---------- */
 .result-text {
   display: flex;
