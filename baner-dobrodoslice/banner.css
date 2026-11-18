@@ -1,0 +1,168 @@
+/* Banner dobrodošlice — Figma: HomeDiscovery / node 1009:11386 */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;900&display=swap");
+
+:root {
+  --surface-bg: #1e2733;
+  --text-primary: #f9f8f8;
+  --text-secondary: #cfc4c4;
+  --btn-primary: #057d11;
+  --btn-text: #f9f8f8;
+  --radius-md: 12px;
+  --radius-xl: 24px;
+  --rhythm-s: 8px;
+  --rhythm-md: 16px;
+  --font: "Proxima Nova", "Montserrat", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #0f141b;
+  font-family: var(--font);
+}
+
+/* ---------- Banner shell ---------- */
+.banner {
+  position: relative;
+  isolation: isolate;
+  width: 375px;
+  height: 394px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--surface-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.layer { position: absolute; }
+
+/* bg ljubičasti gradijent (z 1) */
+.bg {
+  z-index: 1;
+  left: 0;
+  top: 241.56px;
+  width: 748.239px;
+  height: 237.441px;
+  background: linear-gradient(to top, #280071 0%, rgba(80, 40, 153, 0) 93.277%);
+}
+
+/* glow elipsa (z 2) */
+.glow {
+  z-index: 2;
+  left: calc(50% + 0.14px);
+  top: 79.1px;
+  width: 309.272px;
+  height: 295.305px;
+  transform: translateX(-50%);
+}
+.glow img {
+  position: absolute;
+  left: -41.29%;
+  top: -43.24%;
+  width: 182.58%;
+  height: 186.48%;
+  max-width: none;
+}
+
+/* casino elementi (z 3) */
+.casino { z-index: 3; position: absolute; inset: 0; }
+
+.rulet-wrap {
+  left: -41.3px; top: -95.04px;
+  width: 458.485px; height: 458.094px;
+  display: flex; align-items: center; justify-content: center;
+}
+.rulet {
+  width: 338.254px; height: 337.273px;
+  object-fit: cover;
+  transform: matrix(0.87779, 0.479045, -0.479045, 0.87779, 0, 0);
+}
+
+.karte {
+  left: 44px; top: 35px;
+  width: 169px; height: 169px;
+}
+
+.kocke-wrap {
+  left: 222px; top: 15.44px;
+  width: 86.276px; height: 78.23px;
+  display: flex; align-items: center; justify-content: center;
+}
+.kocke {
+  width: 71.205px; height: 49.222px;
+  transform: matrix(0.866025, 0.5, 0.5, -0.866025, 0, 0);
+}
+
+/* igrač (z 4) */
+.player-wrap {
+  z-index: 4;
+  left: -18.71px; top: -39.04px;
+  width: 453.655px; height: 587.653px;
+  display: flex; align-items: center; justify-content: center;
+}
+.player {
+  width: 392.176px; height: 545.267px;
+  object-fit: cover;
+  transform: matrix(-0.993043, 0.117753, 0.117753, 0.993043, 0, 0);
+}
+
+/* tekst + CTA (z 5) */
+.content {
+  position: relative;
+  z-index: 5;
+  width: 375px;
+  padding: 16px 16px 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--rhythm-s);
+  border-radius: var(--radius-md);
+  background: linear-gradient(to top, var(--surface-bg) 37.402%, rgba(30, 39, 51, 0));
+}
+
+.eyebrow {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.title {
+  width: 227px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 29px;
+  line-height: 31px;
+  color: var(--text-primary);
+  text-shadow: 0 0 20px rgba(9, 12, 17, 0.8);
+}
+.title .currency {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
+.cta {
+  height: 32px;
+  min-height: 24px;
+  padding: 0 var(--rhythm-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--radius-xl);
+  background: var(--btn-primary);
+  color: var(--btn-text);
+  font: 600 12px/16px var(--font);
+  text-decoration: none;
+  cursor: pointer;
+  transform-origin: 50% 50%;
+}
+.cta:hover { filter: brightness(1.1); }
+.cta:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
