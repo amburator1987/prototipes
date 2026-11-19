@@ -4,16 +4,16 @@
   /* ---------- Podaci (redosled i vrednosti iz Figme, frame 6373:16934 – 10 kartica) ---------- */
   // kind – tip nagrade ispod iznosa, prikazuje se samo na wheel3 (Figma 6550:11885): RSD (novac), FS (free spins), FreeBet
   var AWARDS = [
-    { icon: 'ml6',     amount: '300.00',      currency: 'RSD', product: 'Lucky Six',     badge: 'VOUCHER',        kind: 'RSD' },
+    { icon: 'ml6',     amount: '300',         currency: 'RSD', product: 'Lucky Six',     badge: 'VOUCHER',        kind: 'RSD' },
     { icon: 'slash',   amount: 'Bez\nNagrade', currency: '',    product: '',              badge: '', noPrize: true, kind: '' },
-    { icon: 'lotto',   amount: '300.00',      currency: 'RSD', product: 'Grčki kino',    badge: 'VOUCHER',        kind: 'RSD' },
-    { icon: 'casino',  amount: '300.00',      currency: '',    product: 'Casino',        badge: 'FREE SPINS',     kind: 'FS' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Lucky Six',     badge: 'WAGER FREE BET', kind: 'FreeBet' },
-    { icon: 'Voucher', amount: '4565',        currency: '',    product: 'Lucky Six',     badge: 'WAGER VOUCHER',  kind: 'RSD' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Bruto FreeBet',  kind: 'FreeBet' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet',   kind: 'FreeBet' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet',   kind: 'FreeBet' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet',   kind: 'FreeBet' }
+    { icon: 'lotto',   amount: '300',         currency: 'RSD', product: 'Grčki kino',    badge: 'VOUCHER',        kind: 'RSD' },
+    { icon: 'casino',  amount: '300',         currency: '',    product: 'Casino',        badge: 'FREE SPINS',     kind: 'FS' },
+    { icon: 'freeBet', amount: '300',         currency: 'RSD', product: 'Lucky Six',     badge: 'WAGER FREE BET', kind: 'FreeBet' },
+    { icon: 'Voucher', amount: '4.565',       currency: '',    product: 'Lucky Six',     badge: 'WAGER VOUCHER',  kind: 'RSD' },
+    { icon: 'freeBet', amount: '300',         currency: 'RSD', product: 'Svi Proizvodi', badge: 'Bruto FreeBet',  kind: 'FreeBet' },
+    { icon: 'freeBet', amount: '300',         currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet',   kind: 'FreeBet' },
+    { icon: 'freeBet', amount: '300',         currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet',   kind: 'FreeBet' },
+    { icon: 'freeBet', amount: '300',         currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet',   kind: 'FreeBet' }
   ];
 
   var LABEL_SPIN = 'Zavrti točak';
