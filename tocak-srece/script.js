@@ -215,9 +215,9 @@
     fitWheel3();
   }
 
-  /* wheel3 (mobilni): okvir u Figmi je 455.23px širok; na užem ekranu se točak i ukrasi
+  /* wheel3 (mobilni): okvir u Figmi je 455px širok; na užem ekranu se točak i ukrasi
      proporcionalno umanje (--w3-k) da kartice ne izađu van ekrana */
-  var W3_FRAME_W = 455.23;
+  var W3_FRAME_W = 455;
   function fitWheel3() {
     var w = wheel2Dialog.clientWidth;
     var k = w ? Math.min(1, w / W3_FRAME_W) : 1;

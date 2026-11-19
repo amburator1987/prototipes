@@ -906,28 +906,33 @@ img { display: block; }
 }
 
 /* =========================================================
-   Wheel 3 – manji kružni točak (Figma 6546:8626, okvir 455.23×790), samo mobilni;
+   Wheel 3 – kružni točak za mobilni (Figma 6550:11885, okvir 455×790);
    na desktopu (Mobile = No) je isti kao wheel2.
-   Točak 451.15px, horizontalno centriran i vezan za DNO okvira (kao u Figmi), ali nikad
-   iznad y=339px (Figma pozicija) – na niskom ekranu se odseca odozdo umesto da uđe u tekst.
-   --w3-k (script.js): umanjenje kad je ekran uži od 455.23px.
+   Točak (.wheelSlots2) 492×492, horizontalno centriran i vezan za DNO okvira (y 298–790);
+   širi je od okvira, pa kartice sa strane izlaze van ekrana kao u Figmi. Nikad ne ide iznad
+   y=298px – na niskom ekranu se odseca odozdo umesto da uđe u tekst.
+   --w3-k (script.js): proporcionalno umanjenje kad je ekran uži od 455px.
    ========================================================= */
 .phone:not(.is-desktop) .dialog2.is-w3 {
   --w3-k: 1;
-  --w2-size: calc(451.15px * var(--w3-k));        /* simbol "wheel" 6546:8632 */
-  --w2-radius: calc(161.85px * var(--w3-k));      /* centar točka → centar kartice */
-  --w2-card-scale: calc(0.63722 * var(--w3-k));   /* .wheel_award 99.406 / 156 */
-  --w2-top: max(339px, calc(100% - var(--w2-size)));
+  --w2-size: calc(492px * var(--w3-k));           /* .wheelSlots2 6558:8971 */
+  --w2-radius: calc(176.51px * var(--w3-k));      /* centar točka → centar kartice */
+  --award-size: 141px;                            /* .wheel_award_rounded 141×141, tekst u punoj veličini (21px) */
+  --w2-card-scale: var(--w3-k);
+  --w2-top: max(298px, calc(100% - var(--w2-size)));
 }
-/* Pozadina (Mask group) prati točak: u Figmi počinje 83px iznad njega (256 vs 339) */
+/* Pozadina (Mask group) prati točak: u Figmi počinje 42px iznad njega (256 vs 298) */
 .phone:not(.is-desktop) .dialog2.is-w3 .w2-bg__game {
-  top: calc(var(--w2-top) - 83px);
+  top: calc(var(--w2-top) - 42px);
 }
 .phone:not(.is-desktop) .dialog2.is-w3 .w2-hub__label {
-  font-size: calc(16.568px * var(--w3-k));
-  letter-spacing: calc(2.9822px * var(--w3-k));
-  text-shadow: 0 0 calc(7.009px * var(--w3-k)) rgba(255, 255, 255, 0.65);
+  font-size: calc(18.068px * var(--w3-k));
+  letter-spacing: calc(3.2522px * var(--w3-k));
+  text-shadow: 0 0 calc(7.644px * var(--w3-k)) rgba(255, 255, 255, 0.65);
 }
+/* Frejm 6550:11885 nema ukrasa (x2, x3, točak) – sakriveni; pozicije ispod su iz prethodnog
+   frejma 6546:8626, ostavljene ako se ukrasi vrate (obrisati display: none) */
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-deco { display: none; }
 /* Ukrasi: pomeraj centra slike od centra okvira (x) i od centra točka (y) iz Figme */
 .phone:not(.is-desktop) .dialog2.is-w3 .w2-deco {
   left: calc(50% + var(--dx) * var(--w3-k));
