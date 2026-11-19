@@ -2,17 +2,18 @@
   'use strict';
 
   /* ---------- Podaci (redosled i vrednosti iz Figme, frame 6373:16934 – 10 kartica) ---------- */
+  // kind – tip nagrade ispod iznosa, prikazuje se samo na wheel3 (Figma 6550:11885): RSD (novac), FS (free spins), FreeBet
   var AWARDS = [
-    { icon: 'ml6',     amount: '300.00',      currency: 'RSD', product: 'Lucky Six',     badge: 'VOUCHER' },
-    { icon: 'slash',   amount: 'Bez\nNagrade', currency: '',    product: '',              badge: '', noPrize: true },
-    { icon: 'lotto',   amount: '300.00',      currency: 'RSD', product: 'Grčki kino',    badge: 'VOUCHER' },
-    { icon: 'casino',  amount: '300.00',      currency: '',    product: 'Casino',        badge: 'FREE SPINS' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Lucky Six',     badge: 'WAGER FREE BET' },
-    { icon: 'Voucher', amount: '4565',        currency: '',    product: 'Lucky Six',     badge: 'WAGER VOUCHER' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Bruto FreeBet' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet' },
-    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet' }
+    { icon: 'ml6',     amount: '300.00',      currency: 'RSD', product: 'Lucky Six',     badge: 'VOUCHER',        kind: 'RSD' },
+    { icon: 'slash',   amount: 'Bez\nNagrade', currency: '',    product: '',              badge: '', noPrize: true, kind: '' },
+    { icon: 'lotto',   amount: '300.00',      currency: 'RSD', product: 'Grčki kino',    badge: 'VOUCHER',        kind: 'RSD' },
+    { icon: 'casino',  amount: '300.00',      currency: '',    product: 'Casino',        badge: 'FREE SPINS',     kind: 'FS' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Lucky Six',     badge: 'WAGER FREE BET', kind: 'FreeBet' },
+    { icon: 'Voucher', amount: '4565',        currency: '',    product: 'Lucky Six',     badge: 'WAGER VOUCHER',  kind: 'RSD' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Bruto FreeBet',  kind: 'FreeBet' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet',   kind: 'FreeBet' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet',   kind: 'FreeBet' },
+    { icon: 'freeBet', amount: '300.00',      currency: 'RSD', product: 'Svi Proizvodi', badge: 'Neto freebet',   kind: 'FreeBet' }
   ];
 
   var LABEL_SPIN = 'Zavrti točak';
@@ -87,6 +88,7 @@
           iconHtml(a.icon) +
           '<div class="award__text">' +
             '<div class="award__value"><span class="award__amount">' + escapeHtml(a.amount) + '</span>' + currency + '</div>' +
+            (a.kind ? '<p class="award__kind">' + escapeHtml(a.kind) + '</p>' : '') +
             '<p class="award__product">' + (a.product ? escapeHtml(a.product) : '&nbsp;') + '</p>' +
           '</div>' +
         '</div>' +
@@ -212,6 +214,8 @@
     // wheel2 + desktop (Mobile = No) je cela stranica (Figma Dt 1920–800), ne lobby okvir
     phoneEl.classList.toggle('is-w2', d !== 1);
     wheel2Dialog.classList.toggle('is-w3', d === 3);
+    // wheel3 ima samo okrugle kartice – izbor oblika se ne prikazuje
+    shapeSelect.parentElement.style.display = d === 3 ? 'none' : '';
     fitWheel3();
   }
 
@@ -443,6 +447,7 @@
   var ringAngle = 0;
 
   function resetWheel2() {
+    unlockRingZ();
     ringAngle = 0;
     w2Drag = null;
     w2Wheel.classList.remove('is-dragging', 'is-locked');
@@ -484,12 +489,19 @@
     }
 
     var token = spinToken;
+    // Slojevi se tokom spina ne preračunavaju po frejmu (inače kartica koja pređe vrh vidljivo
+    // "skoči" preko suseda): zaključaju se na početni raspored i jednom prebace na konačni,
+    // dok prsten leti najbrže – kad stane, raspored je već tačan
+    lockRingZ(ringAngle);
     void ring.offsetWidth;
     requestAnimationFrame(function () {
       if (phase !== 'spinning' || token !== spinToken) return;
       ringAngle = target;
       ring.style.transition = 'transform ' + DURATION + 'ms ' + W2_EASE;
       ring.style.transform = 'rotate(' + target + 'deg)';
+      zSwapTimer = setTimeout(function () {
+        if (token === spinToken) lockRingZ(target);
+      }, W2_Z_SWAP_MS);
       spinTimer = setTimeout(function () {
         if (token === spinToken) finish2();
       }, DURATION);
@@ -500,6 +512,18 @@
      kazaljke svaka sledeća je ispod prethodne (desna ispod leve), pa je ona levo od centralne najniža.
      Računa se prema trenutnom položaju na ekranu, pa važi i dok se prsten okreće. */
   var lastZAngle = null;
+  var zLocked = false;                 // tokom spina: slojevi se ne prate po frejmu
+  var zSwapTimer = null;
+  var W2_Z_SWAP_MS = 150;              // ~najveća brzina prstena (W2_EASE kreće najbrže)
+
+  function lockRingZ(angle) {
+    zLocked = true;
+    applyRingZ(angle);
+  }
+  function unlockRingZ() {
+    clearTimeout(zSwapTimer);
+    zLocked = false;
+  }
 
   function currentRingDeg() {
     var t = getComputedStyle(ring).transform;
@@ -510,8 +534,13 @@
   }
 
   function updateRingZ(force) {
+    if (zLocked) return;
     var r = currentRingDeg();
     if (!force && lastZAngle !== null && Math.abs(r - lastZAngle) < 0.01) return;
+    applyRingZ(r);
+  }
+
+  function applyRingZ(r) {
     lastZAngle = r;
     var slots = ring.children;
     var n = slots.length;
@@ -530,6 +559,7 @@
   })();
 
   function finish2() {
+    unlockRingZ();
     var card = ring.children[winIndex].firstElementChild;
     var noPrize = !!AWARDS[winIndex].noPrize;
     card.classList.add('is-winner');

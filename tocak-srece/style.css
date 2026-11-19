@@ -917,7 +917,7 @@ img { display: block; }
   --w3-k: 1;
   --w2-size: calc(492px * var(--w3-k));           /* .wheelSlots2 6558:8971 */
   --w2-radius: calc(176.51px * var(--w3-k));      /* centar točka → centar kartice */
-  --award-size: 141px;                            /* .wheel_award_rounded 141×141, tekst u punoj veličini (21px) */
+  --award-size: 115px;                            /* .wheel_award_rounded 115×115, tekst u punoj veličini */
   --w2-card-scale: var(--w3-k);
   --w2-top: max(298px, calc(100% - var(--w2-size)));
 }
@@ -930,6 +930,27 @@ img { display: block; }
   letter-spacing: calc(3.2522px * var(--w3-k));
   text-shadow: 0 0 calc(7.644px * var(--w3-k)) rgba(255, 255, 255, 0.65);
 }
+/* Kartice (wheel3): uvek okrugle, bez bedža i naziva proizvoda – samo ikonica, iznos (MainFont17/Bold17)
+   i ispod njega tip nagrade (MainFont11/Bold11: RSD / FS / FreeBet); "Bez Nagrade" u jednom redu.
+   Važi i za mobilni i za desktop (desktop je ista kartica uvećana, vidi .phone.is-desktop.is-w2 .dialog2.is-w3) */
+.award__kind { display: none; }
+.dialog2.is-w3 .award { border-radius: 100px; }
+.dialog2.is-w3 .award__badge,
+.dialog2.is-w3 .award__currency,
+.dialog2.is-w3 .award__product { display: none; }
+.dialog2.is-w3 .award__amount {
+  font-size: 17px;
+  line-height: 24px;
+  white-space: nowrap;
+}
+.dialog2.is-w3 .award__kind {
+  display: block;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: var(--font-weight-tertiary);
+  white-space: nowrap;
+}
+
 /* Frejm 6550:11885 nema ukrasa (x2, x3, točak) – sakriveni; pozicije ispod su iz prethodnog
    frejma 6546:8626, ostavljene ako se ukrasi vrate (obrisati display: none) */
 .phone:not(.is-desktop) .dialog2.is-w3 .w2-deco { display: none; }
@@ -1099,6 +1120,21 @@ img { display: block; }
 }
 /* Na desktop dizajnu nema ukrasne grafike */
 .phone.is-desktop.is-w2 .w2-deco { display: none; }
+
+/* Wheel3 desktop (Figma Dt 6546:8998): točak .wheelSlots 736×736, raspored isti kao wheel2
+   (tekst 768px na vrhu, točak 32px ispod). Kartica .wheel_award_rounded 172.03px = mobilna
+   kartica 115px uvećana 1.49593× (tekst 17 → 25.43px, okvir 4 → 5.98px), pa se koristi ista kartica sa zoom */
+.phone.is-desktop.is-w2 .dialog2.is-w3 {
+  --w2-size: 736px;
+  --w2-radius: 264.05px;        /* centar točka → centar kartice */
+  --award-size: 115px;
+  --w2-card-scale: 1.49593;     /* 172.03 / 115 */
+}
+.phone.is-desktop.is-w2 .dialog2.is-w3 .w2-hub__label {
+  font-size: 27.03px;           /* 27.086 × 736 / 737.58 */
+  letter-spacing: 4.866px;
+  text-shadow: 0 0 11.44px rgba(255, 255, 255, 0.65);
+}
 
 /* Dev kontrole plutaju dole desno, iznad stranice */
 body:has(.phone.is-desktop.is-w2) .dev-panel {
