@@ -927,6 +927,9 @@ img { display: block; }
 /* Pozadina wheel3: oblaci (clouds 6573:13400) umesto slike igre iz wheel2 – iza Zevsa, završavaju se
    oštrom ivicom (traka 9px #3c1485) na kojoj Zevs stoji. Oblast 461×367 na (-2.64, 167) = 353px iznad
    centra točka; maska providno → puno odozgo nadole; slika 878×351 na (-208, 16), od toga donjih 9px je traka */
+/* option10 (6573:13399): pozadina okvira je linearni gradijent odozgo nadole #280071 → #000041;
+   vrh ostaje surface/nav-primary pa se nastavlja na status bar (theme-color) */
+.phone:not(.is-desktop) .dialog2.is-w3 { background: linear-gradient(to bottom, var(--surface-nav-primary), #000041); }
 .phone:not(.is-desktop) .dialog2.is-w3 .w2-bg__game { display: none; }
 .w2-bg__clouds,
 .w2-zeus { display: none; }
@@ -1019,10 +1022,10 @@ img { display: block; }
 .award__kind { display: none; }
 .dialog2.is-w3 .award { border-radius: 100px; }
 /* Mobile (6573:13399): kartice u boji pozadine (surface/nav-primary) */
-/* (6573:13407) poluprovidna ljubičasta (surface/nav-primary 40%); senka je box-shadow (samo oko kruga),
+/* (6573:13407) poluprovidna ljubičasta (surface/nav-primary 60%); senka je box-shadow (samo oko kruga),
    ne drop-shadow filter – inače bi kroz providnu karticu senčio i ikonicu/tekst */
 .phone:not(.is-desktop) .dialog2.is-w3 .award {
-  background: rgba(40, 0, 113, 0.4);
+  background: rgba(40, 0, 113, 0.6);
   filter: none;
   box-shadow: 0 0 7.778px rgba(0, 0, 0, 0.45);
 }
