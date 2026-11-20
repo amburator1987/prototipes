@@ -930,11 +930,13 @@ img { display: block; }
 /* option10 (6573:13399): pozadina okvira je linearni gradijent odozgo nadole #280071 → #000041;
    vrh ostaje surface/nav-primary pa se nastavlja na status bar (theme-color) */
 .phone:not(.is-desktop) .dialog2.is-w3 { background: linear-gradient(to bottom, var(--surface-nav-primary), #000041); }
-.phone:not(.is-desktop) .dialog2.is-w3 .w2-bg__game { display: none; }
+.dialog2.is-w3 .w2-bg__game { display: none; }
 .w2-bg__clouds,
 .w2-zeus { display: none; }
+.dialog2.is-w3 .w2-bg__clouds,
+.dialog2.is-w3 .w2-zeus { display: block; }
 /* Zevs diskretno "diše": blago se uvećava i smanjuje oko stopala; senka pod nogama miruje */
-.phone:not(.is-desktop) .dialog2.is-w3 .w2-zeus__img {
+.dialog2.is-w3 .w2-zeus__img {
   transform-origin: 50% 95%;
   animation: w3-zeus-breathe 3.2s ease-in-out infinite;
 }
@@ -945,12 +947,11 @@ img { display: block; }
 /* Lead tekst wheel3 (.wheel_text 6546:8631): bez ikonice poklona; 24px od ivica okvira,
    vertikalno 16px unutrašnjeg razmaka (horizontalno 0) */
 .phone:not(.is-desktop) .dialog2.is-w3 .lead--w2 { padding: var(--rhythm-md) 0; }
-.phone:not(.is-desktop) .dialog2.is-w3 .lead__gift { display: none; }
+.dialog2.is-w3 .lead__gift { display: none; }
 @media (prefers-reduced-motion: reduce) {
-  .phone:not(.is-desktop) .dialog2.is-w3 .w2-zeus__img { animation: none; }
+  .dialog2.is-w3 .w2-zeus__img { animation: none; }
 }
 .phone:not(.is-desktop) .dialog2.is-w3 .w2-bg__clouds {
-  display: block;
   position: absolute;
   left: calc(50% - 230.14px * var(--w3-k));
   top: calc(var(--w3-cy) - 353px * var(--w3-k));
@@ -974,7 +975,6 @@ img { display: block; }
 /* Zevs (6569:12758): 347×433 na (195.36, 133) – iza točka i ispod teksta; senka (Ellipse 220)
    235×41 na (270, 531) */
 .phone:not(.is-desktop) .dialog2.is-w3 .w2-zeus {
-  display: block;
   position: absolute;
   left: calc(50% - 32.14px * var(--w3-k));
   top: calc(var(--w3-cy) - 387px * var(--w3-k));
@@ -1000,8 +1000,8 @@ img { display: block; }
 /* Centar wheel3 mobile: ljubičasti spinner (6573:14760) umesto sivog centra iz wheel2.
    Spinner je 180.68 u točku 492 (inset 31.64%); unutrašnji slojevi su u % spinnera (index.html) */
 .w2-hub3 { display: none; }
-.phone:not(.is-desktop) .dialog2.is-w3 .w2-hub { display: none; }
-.phone:not(.is-desktop) .dialog2.is-w3 .w2-hub3 {
+.dialog2.is-w3 .w2-hub { display: none; }
+.dialog2.is-w3 .w2-hub3 {
   display: block;
   position: absolute;
   inset: 31.64%;
@@ -1024,15 +1024,15 @@ img { display: block; }
 /* Mobile (6573:13399): kartice u boji pozadine (surface/nav-primary) */
 /* (6573:13407) poluprovidna ljubičasta (surface/nav-primary 60%); senka je box-shadow (samo oko kruga),
    ne drop-shadow filter – inače bi kroz providnu karticu senčio i ikonicu/tekst */
-.phone:not(.is-desktop) .dialog2.is-w3 .award {
+.dialog2.is-w3 .award {
   background: rgba(40, 0, 113, 0.6);
   filter: none;
   box-shadow: 0 0 7.778px rgba(0, 0, 0, 0.45);
 }
 /* obična (neizabrana) kartica: ljubičasti okvir; izabrana zadržava zeleni */
-.phone:not(.is-desktop) .dialog2.is-w3 .award:not(.is-winner):not(.is-active) { border-color: var(--border-quarternary); }
+.dialog2.is-w3 .award:not(.is-winner):not(.is-active) { border-color: var(--border-quarternary); }
 /* izabrana kartica: strelica dole 1px više (-3px umesto -4px), da ne viri ispod okvira kao greška */
-.phone:not(.is-desktop) .dialog2.is-w3 { --pointer-bottom-selected: -3px; }
+.dialog2.is-w3 { --pointer-bottom-selected: -3px; }
 .dialog2.is-w3 .award__badge,
 .dialog2.is-w3 .award__currency,
 .dialog2.is-w3 .award__product { display: none; }
@@ -1228,10 +1228,47 @@ img { display: block; }
   --award-size: 115px;
   --w2-card-scale: 1.49593;     /* 172.03 / 115 */
 }
-.phone.is-desktop.is-w2 .dialog2.is-w3 .w2-hub__label {
-  font-size: 27.03px;           /* 27.086 × 736 / 737.58 */
-  letter-spacing: 4.866px;
-  text-shadow: 0 0 11.44px rgba(255, 255, 255, 0.65);
+/* Dt 6546:8998: isti izgled kao wheel3 mobile (ljubičasti spinner, poluprovidne kartice, oblaci i Zevs),
+   točak i spinner uvećani 736/492 = 1.4959×. Spinner 270.28 u točku 736 → isti inset 31.64% */
+.phone.is-desktop.is-w2 .dialog2.is-w3 .w2-hub3__label {
+  inset: 43.85% 0;
+  font-size: 30.14px;           /* 20.15 × 1.4959 */
+  line-height: 33.27px;
+  font-weight: var(--font-weight-tertiary);
+  letter-spacing: 0;
+  text-shadow: 0 0 11.43px rgba(255, 255, 255, 0.65);
+}
+/* Oblaci (clouds 6574:16481): oblast 948.73×755.28 na (486, -66.28) u okviru 1920 → 474px levo od centra,
+   vezano za vrh stranice; slika 1807.16×722.25 na (-428.06, 32.93), donjih 9px je traka #3c1485 */
+.phone.is-desktop.is-w2 .dialog2.is-w3 .w2-bg__clouds {
+  position: absolute;
+  left: calc(50% - 474px);
+  top: -66.28px;
+  width: 948.73px;
+  height: 755.28px;
+  overflow: hidden;
+  border-radius: 0 0 160px 160px;   /* maska ima zaobljene donje uglove (160) */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000);
+  mask-image: linear-gradient(to bottom, transparent, #000);
+}
+.phone.is-desktop.is-w2 .dialog2.is-w3 .w2-bg__clouds img {
+  position: absolute;
+  left: -428.06px;
+  top: 32.93px;
+  width: 1807.16px;
+  height: 722.25px;
+  box-sizing: border-box;
+  border-bottom: 9px solid #3c1485;
+  max-width: none;
+  object-fit: cover;
+}
+/* Zevs (zevs 6574:16485): 468.73×584.9 na (1005, 155) → 45px desno od centra; senka u istim % kao na mobilnom */
+.phone.is-desktop.is-w2 .dialog2.is-w3 .w2-zeus {
+  position: absolute;
+  left: calc(50% + 45px);
+  top: 155px;
+  width: 468.73px;
+  height: 584.9px;
 }
 
 /* Dev kontrole plutaju dole desno, iznad stranice */
