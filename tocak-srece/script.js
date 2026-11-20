@@ -47,7 +47,9 @@
   var wheel2Dialog = document.getElementById('wheel2Dialog');
   var ring = document.getElementById('ring');
   var hubBtn = document.getElementById('hubBtn');
-  var hubLabel = document.getElementById('hubLabel');
+  // Natpis na dugmetu: centar wheel2 (.w2-hub) i centar wheel3 mobile (.w2-hub3) – oba se ažuriraju
+  var hubLabels = document.querySelectorAll('.w2-hub__label');
+  function setHubLabel(t) { for (var i = 0; i < hubLabels.length; i++) hubLabels[i].textContent = t; }
   var phoneEl = document.getElementById('phone');
 
   /* ---------- Stanje ---------- */
@@ -461,7 +463,7 @@
     ring.innerHTML = html;
     updateRingZ(true);
     hubBtn.disabled = false;
-    hubLabel.textContent = W2_LABEL_SPIN;
+    setHubLabel(W2_LABEL_SPIN);
     hubBtn.setAttribute('aria-label', 'Zavrti točak');
   }
 
@@ -566,7 +568,7 @@
     phase = 'spinned';
     w2Wheel.classList.remove('is-locked');
     hubBtn.disabled = false;
-    hubLabel.textContent = W2_LABEL_DONE;
+    setHubLabel(W2_LABEL_DONE);
     hubBtn.setAttribute('aria-label', noPrize ? 'U redu' : 'Preuzmi nagradu');
     setControlsDisabled(false);
   }

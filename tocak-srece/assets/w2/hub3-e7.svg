@@ -1,0 +1,26 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="164.938" height="164.938" viewBox="0 0 164.938 164.938" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Ellipse 7" filter="url(#filter0_d_0_360)">
+<circle cx="82.4692" cy="82.4692" r="68.0009" fill="url(#paint0_linear_0_360)"/>
+<circle cx="82.4692" cy="82.4692" r="67.5009" stroke="url(#paint1_linear_0_360)" stroke-opacity="0.4"/>
+</g>
+<defs>
+<filter id="filter0_d_0_360" x="0" y="0" width="164.938" height="164.938" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="7.23414"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_360"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_360" result="shape"/>
+</filter>
+<linearGradient id="paint0_linear_0_360" x1="82.4702" y1="48.4692" x2="82.4692" y2="150.47" gradientUnits="userSpaceOnUse">
+<stop stop-color="#007D13"/>
+<stop offset="1" stop-color="#00650F"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_360" x1="82.4692" y1="14.4683" x2="82.4692" y2="150.47" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0.4"/>
+</linearGradient>
+</defs>
+</svg>

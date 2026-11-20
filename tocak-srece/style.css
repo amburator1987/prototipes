@@ -24,6 +24,7 @@
   --buttons-surface-primary-default: #057d11;
   --buttons-text-primary-default: #f9f8f8;
   --border-primary: #313540;                     /* border/border-primary – okvir obične kartice */
+  --border-quarternary: rgba(130, 90, 203, 0.3); /* border/border-quarternary – okvir obične kartice na wheel3 mobile */
   --award-border-winner: #057d11;
   --buttons-surface-secondary-default: #41444d;
   --buttons-text-secondary-default: #78e483;
@@ -917,24 +918,118 @@ img { display: block; }
   --w3-k: 1;
   --w2-size: calc(492px * var(--w3-k));           /* .wheelSlots2 6558:8971 */
   --w2-radius: calc(176.51px * var(--w3-k));      /* centar točka → centar kartice */
-  --award-size: 115px;                            /* .wheel_award_rounded 115×115, tekst u punoj veličini */
+  --award-size: 130px;                            /* .wheel_award_rounded 130×130 (6573:13399), tekst u punoj veličini */
   --w2-card-scale: var(--w3-k);
-  --w2-top: max(298px, calc(100% - var(--w2-size)));
+  /* .wheelSlots 6560:10603: y 274–766, 24px iznad dna okvira; nikad iznad y=274 */
+  --w2-top: max(274px, calc(100% - var(--w2-size) - 24px * var(--w3-k)));
+  --w3-cy: calc(var(--w2-top) + var(--w2-size) / 2);   /* centar točka – sidro za oblake i Zevsa */
 }
-/* Pozadina (Mask group) prati točak: u Figmi počinje 42px iznad njega (256 vs 298) */
-.phone:not(.is-desktop) .dialog2.is-w3 .w2-bg__game {
-  top: calc(var(--w2-top) - 42px);
+/* Pozadina wheel3: oblaci (clouds 6573:13400) umesto slike igre iz wheel2 – iza Zevsa, završavaju se
+   oštrom ivicom (traka 9px #3c1485) na kojoj Zevs stoji. Oblast 461×367 na (-2.64, 167) = 353px iznad
+   centra točka; maska providno → puno odozgo nadole; slika 878×351 na (-208, 16), od toga donjih 9px je traka */
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-bg__game { display: none; }
+.w2-bg__clouds,
+.w2-zeus { display: none; }
+/* Zevs diskretno "diše": blago se uvećava i smanjuje oko stopala; senka pod nogama miruje */
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-zeus__img {
+  transform-origin: 50% 95%;
+  animation: w3-zeus-breathe 3.2s ease-in-out infinite;
 }
-.phone:not(.is-desktop) .dialog2.is-w3 .w2-hub__label {
-  font-size: calc(18.068px * var(--w3-k));
-  letter-spacing: calc(3.2522px * var(--w3-k));
-  text-shadow: 0 0 calc(7.644px * var(--w3-k)) rgba(255, 255, 255, 0.65);
+@keyframes w3-zeus-breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
+}
+/* Lead tekst wheel3 (.wheel_text 6546:8631): bez ikonice poklona; 24px od ivica okvira,
+   vertikalno 16px unutrašnjeg razmaka (horizontalno 0) */
+.phone:not(.is-desktop) .dialog2.is-w3 .lead--w2 { padding: var(--rhythm-md) 0; }
+.phone:not(.is-desktop) .dialog2.is-w3 .lead__gift { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .phone:not(.is-desktop) .dialog2.is-w3 .w2-zeus__img { animation: none; }
+}
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-bg__clouds {
+  display: block;
+  position: absolute;
+  left: calc(50% - 230.14px * var(--w3-k));
+  top: calc(var(--w3-cy) - 353px * var(--w3-k));
+  width: calc(461px * var(--w3-k));
+  height: calc(367px * var(--w3-k));
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000);
+  mask-image: linear-gradient(to bottom, transparent, #000);
+}
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-bg__clouds img {
+  position: absolute;
+  left: calc(-208px * var(--w3-k));
+  top: calc(16px * var(--w3-k));
+  width: calc(878px * var(--w3-k));
+  height: calc(351px * var(--w3-k));
+  box-sizing: border-box;
+  border-bottom: calc(9px * var(--w3-k)) solid #3c1485;
+  max-width: none;
+  object-fit: cover;
+}
+/* Zevs (6569:12758): 347×433 na (195.36, 133) – iza točka i ispod teksta; senka (Ellipse 220)
+   235×41 na (270, 531) */
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-zeus {
+  display: block;
+  position: absolute;
+  left: calc(50% - 32.14px * var(--w3-k));
+  top: calc(var(--w3-cy) - 387px * var(--w3-k));
+  width: calc(347px * var(--w3-k));
+  height: calc(433px * var(--w3-k));
+}
+.w2-zeus__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+.w2-zeus__shadow {
+  position: absolute;
+  left: 21.51%;    /* 74.64 / 347 */
+  top: 91.92%;     /* 398 / 433 */
+  width: 67.72%;   /* 235 / 347 */
+  height: 9.47%;   /* 41 / 433 */
+  max-width: none;
+}
+/* Centar wheel3 mobile: ljubičasti spinner (6573:14760) umesto sivog centra iz wheel2.
+   Spinner je 180.68 u točku 492 (inset 31.64%); unutrašnji slojevi su u % spinnera (index.html) */
+.w2-hub3 { display: none; }
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-hub { display: none; }
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-hub3 {
+  display: block;
+  position: absolute;
+  inset: 31.64%;
+  pointer-events: none;
+}
+/* SPIN: Bold 29/32 na spinneru 260px → ×0.6949 = 20.15px; bez razmaka slova */
+.phone:not(.is-desktop) .dialog2.is-w3 .w2-hub3__label {
+  inset: 43.85% 0;
+  font-size: calc(20.15px * var(--w3-k));
+  line-height: calc(22.24px * var(--w3-k));
+  font-weight: var(--font-weight-tertiary);
+  letter-spacing: 0;
+  text-shadow: 0 0 calc(7.64px * var(--w3-k)) rgba(255, 255, 255, 0.65);
 }
 /* Kartice (wheel3): uvek okrugle, bez bedža i naziva proizvoda – samo ikonica, iznos (MainFont17/Bold17)
    i ispod njega tip nagrade (MainFont11/Bold11: RSD / FS / FreeBet); "Bez Nagrade" u jednom redu.
    Važi i za mobilni i za desktop (desktop je ista kartica uvećana, vidi .phone.is-desktop.is-w2 .dialog2.is-w3) */
 .award__kind { display: none; }
 .dialog2.is-w3 .award { border-radius: 100px; }
+/* Mobile (6573:13399): kartice u boji pozadine (surface/nav-primary) */
+/* (6573:13407) poluprovidna ljubičasta (surface/nav-primary 40%); senka je box-shadow (samo oko kruga),
+   ne drop-shadow filter – inače bi kroz providnu karticu senčio i ikonicu/tekst */
+.phone:not(.is-desktop) .dialog2.is-w3 .award {
+  background: rgba(40, 0, 113, 0.4);
+  filter: none;
+  box-shadow: 0 0 7.778px rgba(0, 0, 0, 0.45);
+}
+/* obična (neizabrana) kartica: ljubičasti okvir; izabrana zadržava zeleni */
+.phone:not(.is-desktop) .dialog2.is-w3 .award:not(.is-winner):not(.is-active) { border-color: var(--border-quarternary); }
+/* izabrana kartica: strelica dole 1px više (-3px umesto -4px), da ne viri ispod okvira kao greška */
+.phone:not(.is-desktop) .dialog2.is-w3 { --pointer-bottom-selected: -3px; }
 .dialog2.is-w3 .award__badge,
 .dialog2.is-w3 .award__currency,
 .dialog2.is-w3 .award__product { display: none; }
